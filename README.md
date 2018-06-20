@@ -13,7 +13,7 @@ String lists generator used to produce mass strings for XML, and other formats
 - добавить в следующую миграцию fields.validation_rule + rules.processing_logic ->nullable()
 - `AttributeName.php` нужен? анах?
 
-###frontend
+### frontend
 - ~~frontent UI + Redux (store, reducers, actions)~~ добавлено на базовом уровне
 - построить элементы UI
 - вложенные роуты и компоненты
