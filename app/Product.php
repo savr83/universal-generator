@@ -8,18 +8,18 @@ class Product extends Model
 {
     public function attributes()
     {
-        return $this->belongsTo(Attribute::class);
+        return $this->hasMany(Attribute::class);
     }
-    public function vendors()
+    public function vendor()
     {
-        return $this->hasMany(Vendor::class);
+        return $this->belongsTo(Vendor::class);
     }
-    public function dealers()
+    public function dealer()
     {
-        return $this->hasMany(Dealer::class);
+        return $this->belongsTo(Dealer::class);
     }
-    public function categories()
+    public function category()
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsTo(Category::class);
     }
 }

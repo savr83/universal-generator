@@ -13,6 +13,7 @@
 
 use function BenTools\CartesianProduct\cartesian_product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 
 Route::get('/', function () {
@@ -88,5 +89,17 @@ Route::get('/permut', function () {
     return cartesian_product(['a1' => $array1, 'a2' => $array2, 'a3' => $array3])->asArray();
 });
 
+
+Route::get('/validate', function () {
+    $data = [
+        'power2' => 100,
+        'rpm' => 200
+    ];
+
+    $validator = Validator::make($data, ['power2' => 'max:50|required', 'rpm' => 'required|numeric|max:10']);
+
+    return $validator->messages();
+
+});
 
 Route::get('/configs/generate/{id}', 'ConfigController@generate');

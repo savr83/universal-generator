@@ -8,14 +8,16 @@ class Vendor extends Model
 {
     public function products()
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasMany(Product::class);
     }
-    public function contacts()
-    {
-        return $this->belongsTo(Contact::class);
-    }
+
     public function dealers()
     {
         return $this->hasMany(Dealer::class);
+    }
+
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class);
     }
 }

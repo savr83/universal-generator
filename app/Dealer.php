@@ -10,8 +10,14 @@ class Dealer extends Model
     {
         return $this->hasMany(Vendor::class);
     }
+
     public function products()
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasMany(Product::class);
+    }
+
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class);
     }
 }
