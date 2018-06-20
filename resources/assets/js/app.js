@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 /**
  * First, we will load all of this project's Javascript utilities and other
  * dependencies. Then, we will be ready to develop a robust and powerful
@@ -8,27 +6,24 @@ import $ from "jquery";
 
 require('./bootstrap');
 
-//import Main from './components/Main';
 import 'bootstrap';
 
 import React from 'react';
 import {render} from 'react-dom';
+
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-//import Master from './components/Master';
+
+import {createStore} from 'redux';
+import {Provider} from 'react-redux'
+import rootReducer from './reducers'
+
+import ConfigListContainer from "./components/config/ConfigListContainer";
 import CreateItem from './components/CreateItem';
 import DisplayItem from "./components/DisplayItem";
 import EditItem from "./components/EditItem";
 
-import {createStore, combineReducers} from 'redux';
-import {Provider} from 'react-redux'
-
-import rootReducer from './reducers'
-import ConfigListContainer from "./components/config/ConfigListContainer";
-
-console.log(rootReducer)
 const store = createStore(rootReducer)
 
-// <Route path="/display-item" component={DisplayItem} />
 render(
     <Provider store={store}>
         <Router basename="/home/">

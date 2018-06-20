@@ -1,17 +1,23 @@
 import {ConfigActions} from '../actions'
 
+/*
+объект-наполнитель, mock-up, начальное состояние для редюсера
+*/
 const initialConfigState = {
     newConfigName: '',
     configs: [{id: 0, name: 'ebastos'}]
 }
 
+/*
+редюсер -- чистая (pure) функция отвечающая за изменение состояния
+НЕ должна менять входные параметры, не должна иметь побочных эффектов, делать API вызовы или вызовы impure функций
+*/
 const configReducer = (state = initialConfigState, action) => {
-    console.log('conf reducer START -- state: ', state, "action:", action)
     switch (action.type) {
         case ConfigActions.ADD_CONFIG:
             // !!! .length не всегда длина https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/length
             let newId = state.configs.length
-            const newState = {
+            return {
                 ...state,
                 configs: [
                     ...state.configs,
@@ -21,8 +27,6 @@ const configReducer = (state = initialConfigState, action) => {
                     }
                 ]
             }
-            console.log('ADD new state:', newState, "old state:", state)
-            return newState
         case ConfigActions.DEL_CONFIG:
             return {
                 ...state,

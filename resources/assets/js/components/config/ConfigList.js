@@ -1,8 +1,13 @@
 import React from 'react';
 import Config from "./Config";
 
+/*
+простой презентационный компонент (глупый, stateless)
+идентичен Config.js но используется для списков с помощью .map(), подробности:
+https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+*/
+
 const ConfigList = props => {
-    console.log('props', props);
     return (
         <ul>
             {
