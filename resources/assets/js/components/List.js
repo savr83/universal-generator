@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Example from "./Example";
-import Config from "./Config";
+import Config from "./config/Config";
 
 
 const listTypes = {

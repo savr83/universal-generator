@@ -19,18 +19,31 @@ import CreateItem from './components/CreateItem';
 import DisplayItem from "./components/DisplayItem";
 import EditItem from "./components/EditItem";
 
+import {createStore, combineReducers} from 'redux';
+import {Provider} from 'react-redux'
+
+import rootReducer from './reducers'
+import ConfigListContainer from "./components/config/ConfigListContainer";
+
+console.log(rootReducer)
+const store = createStore(rootReducer)
+
 // <Route path="/display-item" component={DisplayItem} />
 render(
-    <Router basename="/home/">
-        <div>
-            <ul>
-                <li><Link to="add-item">Create Item</Link></li>
-                <li><Link to="display-item">Display Item</Link></li>
-            </ul>
-            <Route exact path="/" component={DisplayItem} />
-            <Route path="/add-item" component={CreateItem} />
-            <Route path="/edit/:id" component={EditItem} />
-        </div>
-    </Router>
+    <Provider store={store}>
+        <Router basename="/home/">
+            <div>
+                <ul>
+                    <li><Link to="add-item">Create Item</Link></li>
+                    <li><Link to="display-item">Display Item</Link></li>
+                    <li><Link to="configs">Configs</Link></li>
+                </ul>
+                <Route exact path="/" component={DisplayItem}/>
+                <Route path="/configs" component={ConfigListContainer}/>
+                <Route path="/add-item" component={CreateItem}/>
+                <Route path="/edit/:id" component={EditItem}/>
+            </div>
+        </Router>
+    </Provider>
     ,
     document.getElementById('example'));
