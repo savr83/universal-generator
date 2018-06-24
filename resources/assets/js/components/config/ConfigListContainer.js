@@ -3,6 +3,7 @@ import {Component} from "react";
 import ConfigList from "./ConfigList";
 import {connect} from "react-redux";
 import {addConfig, delConfig, newConfigNameUpdate} from "../../actions";
+import { Button } from 'react-bootstrap';
 
 /*
 компонент-контейнер (умный, smart)
@@ -64,7 +65,7 @@ class ConfigListContainer extends Component {
         return (
             <div>
                 <input type="text" onChange={e => this.props.newConfigNameUpdate(e.target.value)} value={this.props.newConfigName} />
-                <button onClick={e => this.props.addConfig(this.props.newConfigName)}>New config</button>
+                <Button className="btn btn-primary" onClick={e => this.props.addConfig(this.props.newConfigName)}>New config</Button>
                 <ConfigList configs={this.props.configs} delConfig={this.props.delConfig}/>
             </div>
         );

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vendor extends Model
 {
+    protected $fillable = ['name', 'short_name', 'contact_id'];
+
     public function products()
     {
         return $this->hasMany(Product::class);

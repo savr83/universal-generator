@@ -89,6 +89,11 @@ Route::get('/permut', function () {
     return cartesian_product(['a1' => $array1, 'a2' => $array2, 'a3' => $array3])->asArray();
 });
 
+/*
+ * Route::get('/import', function () {
+    return cartesian_product(['a1' => $array1, 'a2' => $array2, 'a3' => $array3])->asArray();
+});
+*/
 
 Route::get('/validate', function () {
     $data = [

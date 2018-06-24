@@ -26,6 +26,7 @@ class ProductResource extends JsonResource
             'weight' => $this->weight,
             'name' => $this->name,
             'quantity' => $this->quantity,
+            'attributes' => AttributesResource::collection($this->whenLoaded('attributes')),
         );
     }
 }

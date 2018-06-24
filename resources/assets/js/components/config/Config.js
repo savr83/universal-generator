@@ -22,7 +22,7 @@ function(props) {
 
 const Config = props => {
     return (
-        <div id={props.config.id}>{props.config.name}</div>
+        <span id={props.config.id}>{props.config.name}</span>
     );
 }
 

@@ -12,6 +12,9 @@ class Attribute extends Model
         return $this->hasMany(AttributeName::class);
     }
 */
+
+    protected $fillable = ['name', 'value', 'category_id'];
+
     public function products()
     {
         return $this->hasMany(Product::class);

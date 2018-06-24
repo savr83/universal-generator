@@ -28,4 +28,18 @@ class GModel extends Model
         }
         return $row;
     }
+
+    public static function getValidator($data, $rules)
+    {
+/*
+        $data = [
+            'power2' => 100,
+            'rpm' => 200
+        ];
+
+        $validator = Validator::make($data, ['power2' => 'max:50|required', 'rpm' => 'required|numeric|max:10']);
+*/
+
+        return Validator::make($data, $rules);
+    }
 }

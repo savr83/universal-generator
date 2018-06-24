@@ -24,6 +24,8 @@
     },
     "dependencies": {
         "history": "^4.7.2",
+        "react-bootstrap": "^0.32.1",
+        "react-bootstrap-table": "^4.3.1",
         "react-dropzone": "^4.2.11",
         "react-redux": "^5.0.7",
         "react-router": "^4.3.1",
