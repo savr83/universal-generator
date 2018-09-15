@@ -125,11 +125,12 @@ class ConfigController extends Controller
                 $product = Product::firstOrNew(['name' => $rec['MODEL']]); // обновление существующей или создать
 //                $product = new Product(); //всегда новая модель
 //                $product->name = $rec['MODEL'];
-                $product->width = $rec['X'] ?: 0;
-                $product->height = $rec['Y'] ?: 0;
-                $product->depth = $rec['Z'] ?: 0;
+                $product->width = $rec['WIDTH'] ?: 0;
+                $product->height = $rec['HEIGHT'] ?: 0;
+                $product->depth = $rec['DEPTH'] ?: 0;
                 $product->weight = $rec['WEIGHT'] ?: 0;
                 $product->price = $rec['PRICE'] ?: 0;
+                $product->purchase_price = $rec['PURCHASE_PRICE'] ?: 0;
                 $product->quantity = 0;
 
                 $product->category()->associate($defCategory);
@@ -143,7 +144,7 @@ class ConfigController extends Controller
                 $realAttr = [];
                 foreach ($attributes as $k => $v) {
 //'MONTAGE' => $rec['MONTAGE']
-                    $attribute = Attribute::firstOrCreate(['product_id' => $product->id, 'name' => $k]);
+                    $attribute = Attribute::firstOrCreate(['product_id' => $product->id, 'name' => $k, 'value' => $v, 'category_id' => 1]);
                     $attribute->value = $v;
                     $realAttr[] = $attribute;
                 }
@@ -164,18 +165,22 @@ class ConfigController extends Controller
 
             foreach ($dest->config->sources as $src) {
 //                $in[$src->source_name] = $src->getData();
-                foreach ($src->getIterator() as $rec) {
-                    foreach ($src->fields as $field) {
+                if (is_string($records = $src->getIterator())) {
+                    $ret['errors'][] = $records;
+                } else {
+                    foreach ($records as $rec) {
+                        foreach ($src->fields as $field) {
 // существует ли поле с таким же именем во входящих данных (CSV)
-                        if (array_key_exists($field->name, $rec)) {
-                            if ($field->combination) {
+                            if (array_key_exists($field->name, $rec)) {
+                                if ($field->combination) {
 // для полей-комбинаций собираем уникальные значения для последующей перестановки
-                                if (!array_key_exists($field->name, $in) || !in_array($rec[$field->name], $in[$field->name])) {
-                                    $in[$field->name][] = $rec[$field->name];
+                                    if (!array_key_exists($field->name, $in) || !in_array($rec[$field->name], $in[$field->name])) {
+                                        $in[$field->name][] = $rec[$field->name];
+                                    }
+                                } else {
+// для обычных полей запомниаем значения в отдельный подмассив с индексом -- именем модели
+                                    $out[$rec['MODEL']][$field->name] = $rec[$field->name];
                                 }
-                            } else {
-// для обычный полей запомниаем значения в отдельный подмассив с индексом -- именем модели
-                                $out[$rec['MODEL']][$field->name] = $rec[$field->name];
                             }
                         }
                     }

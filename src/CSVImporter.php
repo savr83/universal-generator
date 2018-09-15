@@ -8,9 +8,15 @@ class CsvImporter
     private $header;
     private $delimiter;
     private $length;
+
+    public $message = "";
     //--------------------------------------------------------------------
     function __construct($file_name, $parse_header=false, $delimiter="\t", $length=8000)
     {
+        if (!file_exists($file_name)) {
+            $this->message = "Error: $file_name not exist";
+            return;
+        }
         $this->fp = fopen($file_name, "r");
         $this->parse_header = $parse_header;
         $this->delimiter = $delimiter;

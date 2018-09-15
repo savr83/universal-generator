@@ -23,7 +23,7 @@ class Source extends Model implements IteratorAggregate
         switch ($this->type) {
             case 'csv':
                 $importer = new CsvImporter(__DIR__ . "/../upload/{$this->type}/{$this->source_name}", true, ";");
-                return $importer->get();
+                return $importer->message !== "" ? $importer->message : $importer->get();
                 break;
         }
         return [];

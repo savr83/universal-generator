@@ -15,6 +15,7 @@ String lists generator used to produce mass strings for XML, and other formats
 - добавить в следующую миграцию fields.validation_rule + rules.processing_logic ->nullable()
 - `AttributeName.php` нужен? анах? временно без связи с таблицей категорий, без поля required
 - rules -- организовать в дерево для обработки xml
+- как добавлять рилейшны в ресурсы ?
 
 ### frontend
 - ~~frontent UI + Redux (store, reducers, actions)~~ добавлено на базовом уровне
@@ -41,6 +42,7 @@ INSERT INTO rules(destination_id, name, processing_logic) VALUES
 (1,'PROTECTION', '<param code="PROTECTION" name="Защита">{{ $record["PROTECTION"] }}</param>')
 
 
----
+## URLs
+https://devarchy.com/redux -- подборка redux библиотек/компонентов
 
 КОНЕЦ!

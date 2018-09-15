@@ -39,6 +39,7 @@ class Destination extends GModel
 
     public function rules()
     {
+        debugbar()->log('we are here!');
         return $this->hasMany(Rule::class);
     }
 
@@ -159,6 +160,9 @@ class Destination extends GModel
                     $blade = Blade::compileString($rule->processing_logic);
                     // костыль!!! поменять!
                     $value = "" . view('renderer', ['blade' => $blade, 'record' => $combination]);
+                    xmlwriter_write_attribute($this->conf_XW, 'id', preg_replace('/\s+/', '',$combination['MODEL'] . "#" . $combination['MONTAGE']));
+                    xmlwriter_write_attribute($this->conf_XW, 'productId', preg_replace('/\s+/', '',$combination['MODEL'] . "#" . $combination['DEALER']));
+                    xmlwriter_write_attribute($this->conf_XW, 'quantity', '10');
                     xmlwriter_write_raw($this->conf_XW, $value);
                 }
                 xmlwriter_end_element($this->conf_XW);

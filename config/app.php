@@ -165,6 +165,8 @@ return [
 
         Barryvdh\Debugbar\ServiceProvider::class,
 
+        Franzose\ClosureTable\ClosureTableServiceProvider::class,
+
     ],
 
     /*

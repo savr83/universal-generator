@@ -20,8 +20,13 @@ Route::middleware('auth')->get('/user', function (Request $request) {
 
 
 Route::resource('configs', 'ConfigController'); //->name('home');
+Route::resource('destinations', 'DestinationController');
+Route::resource('rules', 'RuleController');
+
 Route::resource('categories', 'CategoryController');
 Route::resource('products', 'ProductController');
+
+
 
 Route::get('/configs/generate/{id}', 'ConfigController@generate');
 Route::get('/configs/import/{id}', 'ConfigController@import');
