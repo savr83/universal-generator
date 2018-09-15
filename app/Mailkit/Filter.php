@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Filter extends Model
 {
-    use TableNameResolver;
+    use HasNamespaceTablePrefix;
 
     public function pool()
     {

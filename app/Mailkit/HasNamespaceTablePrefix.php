@@ -8,10 +8,9 @@
 
 namespace App\Mailkit;
 
-
 use Illuminate\Support\Str;
 
-trait TableNameResolver
+trait HasNamespaceTablePrefix
 {
     public $base_namespace=__NAMESPACE__;
 
@@ -19,7 +18,7 @@ trait TableNameResolver
     {
         if (! isset($this->table)) {
             $this->setTable(str_replace(
-                '\\', '', Str::snake(Str::plural(trim(str_after(get_class($this),trim($this->base_namespace,'\\')),'\\')))
+                '\\', '', Str::snake(Str::plural(str_replace('App\\', '', $this->base_namespace) . class_basename($this)))
             ));
         }
         return $this->table;
