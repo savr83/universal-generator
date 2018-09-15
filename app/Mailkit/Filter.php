@@ -4,9 +4,9 @@ namespace App\Mailkit;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Log extends Model
+class Filter extends Model
 {
-    public function rule()
+    public function pool()
     {
         return $this->belongsTo(Pool::class);
     }
