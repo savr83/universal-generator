@@ -26,6 +26,16 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+//        $schedule->call(function () {
+//            print("lalala");
+//        })
+
+        $schedule->command('mailkit:handle')
+        ->everyMinute()
+//        ->dailyAt('15:17')
+        ->withoutOverlapping()
+        ->appendOutputTo(__DIR__.'/../../../.tmp/schedule.log');
     }
 
     /**
