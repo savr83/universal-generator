@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Filter extends Model
 {
+    use TableNameResolver;
+
     public function pool()
     {
         return $this->belongsTo(Pool::class);

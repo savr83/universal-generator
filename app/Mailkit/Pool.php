@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pool extends Model
 {
+    use TableNameResolver;
+
     public function sources()
     {
         return $this->hasMany(Source::class);
