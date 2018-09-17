@@ -2,6 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Mailkit\Filter;
+use App\Mailkit\Pool;
+use App\Mailkit\Rule;
 use Illuminate\Console\Command;
 use PhpImap\Mailbox;
 
@@ -34,52 +37,68 @@ class MailkitHandleCommand extends Command
     /**
      * Execute the console command.
      *
+     *   $mailbox = new Mailbox('{imap.beget.com:143/imap}INBOX', 'zakaz-rostov', 'NsOxD5v%', __DIR__);
+     *   $mailbox = new Mailbox('{imap.beget.com:993/imap/ssl}INBOX', 'zakaz-rostov@agregat.me', 'NsOxD5v%');
+     *
      * @return mixed
      */
     public function handle()
     {
-/*
-smtp.beget.com:25 | 2525
-:465
-pop3.beget.com:110
-:995
-imap.beget.com:143
-:993
-
-zakaz-rostov:NsOxD5v%
-mail-rostov:m6BsmnF%
-motor-rostov:u97qj&MV
-
-!!! Beget limits !!!
-mail() (sendmail) 30 emails per minute
-SMTP 30 emails per minute + 1500 per hour
-recipients max: 300
-message size max: 100Mb for SMTP, 70Mb for sendmail
-*/
         print("Get emails using IMAP...\n");
-//        $mailbox = new Mailbox('{imap.beget.com:143/imap/ssl}INBOX', 'zakaz-rostov', 'NsOxD5v%', __DIR__);
+        foreach (Pool::where('enabled', true)->get() as $pool){
+            print("Handling pool: {$pool->name}\n");
 
-// 4 secure connection:
-//        $mailbox = new Mailbox('{imap.beget.com:993/imap/ssl}INBOX', 'zakaz-rostov@agregat.me', 'NsOxD5v%');
+            $pool->rules()->where('enabled', true)->update(['counter' => 0]);
+            $queue = new SplPriorityQueue();
+            $rules = new InfiniteIterator($pool->rules()->where('enabled', true)->get());
 
-        $mailbox = new Mailbox('{imap.beget.com:143/imap}INBOX', 'zakaz-rostov@agregat.me', 'NsOxD5v%');
-        $mailsIds = $mailbox->searchMailbox('ALL');
-        if(!$mailsIds) {
-            die('Mailbox is empty');
+            foreach ($pool->sources()->where('enabled', true)->get() as $source) {
+                print("Handling source: {$source->name}\n");
+
+                $mailbox = new Mailbox($source->connection, $source->login, $source->password);
+                $mailsIds = $mailbox->searchMailbox('ALL');
+
+                foreach($mailsIds as $id) {
+                    $mail = $mailbox->getMail($id, false);
+                    foreach ($pool->filters()->where('enabled', true) as $filter) {
+                        switch($this->filterMail($filter, $mail)){
+                            case Filter::ACTION_SEND:
+                                $rule = $rules->next();
+                                break;
+                            case Filter::ACTION_REJECT:
+                                $rule = $pool->defaultRule();
+                                break;
+                            case Filter::ACTION_NOACTION:
+                            default:
+                                break;
+                        }
+                    }
+                    print("mail from: {$mail->fromName} added using rule: {$rule->name} with priority: {$rule->wight}\n");
+                    $queue->insert(['mail' => $mail, 'rule' => $rule], $rule->weight);
+                }
+            }
+            print("Priority queue NEW ORDER:\n");
+            foreach ($queue as $item){
+                print("mail from: {$mail->fromName} using rule: {$rule->name} with priority: {$rule->wight}\n");
+            }
+/*
+ *                    print("id: {$mail->id} recieved on {$mail->date}\nFrom: {$mail->fromName} <{$mail->fromAddress}>\nSubj: {$mail->subject}\n\n{$mail->textPlain}\n");
+                    if ($mail->textHtml) print("\nHTML:\n\n{$mail->textHtml}\n\n");
+                    $att = null;
+                    if ($att = $mail->getAttachments()) print_r($att);
+
+                    print_r($mail);
+                    if ($id > 2) break;
+
+ */
         }
+    }
 
-        print_r($mailsIds);
-
-        foreach($mailsIds as $id) {
-            $mail = $mailbox->getMail($id, false);
-
-            print("id: {$mail->id} recieved on {$mail->date}\nFrom: {$mail->fromName} <{$mail->fromAddress}>\nSubj: {$mail->subject}\n\n{$mail->textPlain}\n");
-            if ($mail->textHtml) print("\nHTML:\n\n{$mail->textHtml}\n\n");
-            $att = null;
-            if ($att = $mail->getAttachments()) print_r($att);
-
-            print_r($mail);
-            if ($id > 2) break;
-        }
+    public function filterMail($filter, $mail)
+    {
+        print("Checking mail filter: {$filter->name}\n");
+        $ret = (preg_match($filter->regexp, $mail[$filter->mail_field])) ? $filter->action : Filter::ACTION_NOACTION;
+        print("Filter action: $ret\n");
+        return $ret;
     }
 }
