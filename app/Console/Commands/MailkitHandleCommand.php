@@ -64,10 +64,10 @@ class MailkitHandleCommand extends Command
 
 //                $rule = $rules->current();
 //                $rule = Rule::$currentRuleSet->get()->max('priority');
-                $rule = Rule::$currentRuleSet->get()->sortByDesc('priority')->first();
 
                 foreach($mailsIds as $id) {
                     $mail = $mailbox->getMail($id, false);
+                    $rule = Rule::$currentRuleSet->get()->sortByDesc('priority')->first();
 
                     foreach ($pool->filters()->where('enabled', true) as $filter) {
                         switch($this->filterMail($filter, $mail)){
