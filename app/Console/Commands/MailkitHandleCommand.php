@@ -53,6 +53,7 @@ class MailkitHandleCommand extends Command
             $pool->rules()->where('enabled', true)->update(['counter' => 0]);
             $queue = new SplPriorityQueue();
             $rules = new InfiniteIterator($pool->rules()->where('enabled', true)->get()->getIterator());
+            $rules->rewind();
 
             foreach ($pool->sources()->where('enabled', true)->get() as $source) {
                 print("Handling source: {$source->name}\n");
@@ -77,15 +78,16 @@ class MailkitHandleCommand extends Command
                                 break;
                         }
                     }
-                    print("mail from: {$mail->fromName} added using rule: {$rule->name} with priority: {$rule->wight}\n");
+                    print("mail from: {$mail->fromAddress} added using rule: {$rule->name} with priority: {$rule->weight}\n");
                     $queue->insert(['mail' => $mail, 'rule' => $rule], $rule->weight);
 
-                    $rule = $rules->next();
+                    $rules->next();
+                    $rule = $rules->current();
                 }
             }
             print("Priority queue NEW ORDER:\n");
             foreach ($queue as $item){
-                print("mail from: {$mail->fromName} using rule: {$rule->name} with priority: {$rule->wight}\n");
+                print("mail from: {$mail->fromAddress} using rule: {$rule->name} with priority: {$rule->weight}\n");
             }
 /*
  *                    print("id: {$mail->id} recieved on {$mail->date}\nFrom: {$mail->fromName} <{$mail->fromAddress}>\nSubj: {$mail->subject}\n\n{$mail->textPlain}\n");
