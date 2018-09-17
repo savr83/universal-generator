@@ -52,7 +52,7 @@ class MailkitHandleCommand extends Command
 
             $pool->rules()->where('enabled', true)->update(['counter' => 0]);
             $queue = new SplPriorityQueue();
-            $rules = new InfiniteIterator($pool->rules()->where('enabled', true)->get());
+            $rules = new InfiniteIterator($pool->rules()->where('enabled', true)->get()->getIterator());
 
             foreach ($pool->sources()->where('enabled', true)->get() as $source) {
                 print("Handling source: {$source->name}\n");
