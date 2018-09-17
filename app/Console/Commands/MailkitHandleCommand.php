@@ -60,12 +60,14 @@ class MailkitHandleCommand extends Command
                 $mailbox = new Mailbox($source->connection, $source->login, $source->password);
                 $mailsIds = $mailbox->searchMailbox('ALL');
 
+                $rule = $rules->current();
+
                 foreach($mailsIds as $id) {
                     $mail = $mailbox->getMail($id, false);
+
                     foreach ($pool->filters()->where('enabled', true) as $filter) {
                         switch($this->filterMail($filter, $mail)){
                             case Filter::ACTION_SEND:
-                                $rule = $rules->next();
                                 break;
                             case Filter::ACTION_REJECT:
                                 $rule = $pool->defaultRule();
@@ -77,6 +79,8 @@ class MailkitHandleCommand extends Command
                     }
                     print("mail from: {$mail->fromName} added using rule: {$rule->name} with priority: {$rule->wight}\n");
                     $queue->insert(['mail' => $mail, 'rule' => $rule], $rule->weight);
+
+                    $rule = $rules->next();
                 }
             }
             print("Priority queue NEW ORDER:\n");
