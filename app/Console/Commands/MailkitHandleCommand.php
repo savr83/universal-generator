@@ -63,7 +63,8 @@ class MailkitHandleCommand extends Command
                 $mailsIds = $mailbox->searchMailbox('ALL');
 
 //                $rule = $rules->current();
-                $rule = Rule::$currentRuleSet->get()->max('priority');
+//                $rule = Rule::$currentRuleSet->get()->max('priority');
+                $rule = Rule::$currentRuleSet->get()->sortByDesc('priority')->first();
 
                 foreach($mailsIds as $id) {
                     $mail = $mailbox->getMail($id, false);
