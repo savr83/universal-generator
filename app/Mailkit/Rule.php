@@ -12,7 +12,7 @@ class Rule extends Model
 
     public function getPriorityAttribute()
     {
-        return $this->weight / self::$currentRuleSet->sum('weight') - $this->counter / self::$currentRuleSet->sum('counter');
+        return $this->weight / self::$currentRuleSet->sum('weight') - self::$currentRuleSet->sum('counter') == 0 ? 0 : $this->counter / self::$currentRuleSet->sum('counter');
     }
 
     public function pool()

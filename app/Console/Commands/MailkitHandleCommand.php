@@ -51,7 +51,7 @@ class MailkitHandleCommand extends Command
             print("Handling pool: {$pool->name}\n");
 
 //            $queue = new SplPriorityQueue();
-            Rule::$currentRuleSet = $pool->rules()->where('enabled', true)->orderBy('weight', 'desc')->get();
+            Rule::$currentRuleSet = $pool->rules()->where('enabled', true)->orderBy('weight', 'desc');
             Rule::$currentRuleSet->update(['counter' => 0]);
 //            $rules = new InfiniteIterator(Rule::$currentRuleSet->getIterator());
 //            $rules->rewind();
@@ -63,7 +63,7 @@ class MailkitHandleCommand extends Command
                 $mailsIds = $mailbox->searchMailbox('ALL');
 
 //                $rule = $rules->current();
-                $rule = Rule::$currentRuleSet->max('priority');
+                $rule = Rule::$currentRuleSet->get()->max('priority');
 
                 foreach($mailsIds as $id) {
                     $mail = $mailbox->getMail($id, false);
