@@ -6,7 +6,9 @@ use App\Mailkit\Filter;
 use App\Mailkit\Pool;
 use App\Mailkit\Rule;
 use Illuminate\Console\Command;
+use InfiniteIterator;
 use PhpImap\Mailbox;
+use SplPriorityQueue;
 
 class MailkitHandleCommand extends Command
 {
