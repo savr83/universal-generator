@@ -50,10 +50,11 @@ class MailkitHandleCommand extends Command
         foreach (Pool::where('enabled', true)->get() as $pool){
             print("Handling pool: {$pool->name}\n");
 
-            $pool->rules()->where('enabled', true)->update(['counter' => 0]);
-            $queue = new SplPriorityQueue();
-            $rules = new InfiniteIterator($pool->rules()->where('enabled', true)->get()->getIterator());
-            $rules->rewind();
+//            $queue = new SplPriorityQueue();
+            Rule::$currentRuleSet = $pool->rules()->where('enabled', true)->orderBy('weight', 'desc')->get();
+            Rule::$currentRuleSet->update(['counter' => 0]);
+//            $rules = new InfiniteIterator(Rule::$currentRuleSet->getIterator());
+//            $rules->rewind();
 
             foreach ($pool->sources()->where('enabled', true)->get() as $source) {
                 print("Handling source: {$source->name}\n");
@@ -61,7 +62,8 @@ class MailkitHandleCommand extends Command
                 $mailbox = new Mailbox($source->connection, $source->login, $source->password);
                 $mailsIds = $mailbox->searchMailbox('ALL');
 
-                $rule = $rules->current();
+//                $rule = $rules->current();
+                $rule = Rule::$currentRuleSet->max('priority');
 
                 foreach($mailsIds as $id) {
                     $mail = $mailbox->getMail($id, false);
@@ -78,17 +80,22 @@ class MailkitHandleCommand extends Command
                                 break;
                         }
                     }
-                    print("mail from: {$mail->fromAddress} added using rule: {$rule->name} with priority: {$rule->weight}\n");
-                    $queue->insert(['mail' => $mail, 'rule' => $rule], $rule->weight);
+                    print("mail from: {$mail->fromAddress} added using rule: {$rule->name} with priority: {$rule->priority}\n");
+                    $rule->increment('counter');
 
-                    $rules->next();
-                    $rule = $rules->current();
+//                    $queue->insert(['mail' => $mail, 'rule' => $rule], $rule->weight);
+
+//                    $rules->next();
+//                    $rule = $rules->current();
                 }
             }
+/*
             print("Priority queue NEW ORDER:\n");
             foreach ($queue as $item){
                 print("mail from: {$mail->fromAddress} using rule: {$rule->name} with priority: {$rule->weight}\n");
             }
+*/
+
 /*
  *                    print("id: {$mail->id} recieved on {$mail->date}\nFrom: {$mail->fromName} <{$mail->fromAddress}>\nSubj: {$mail->subject}\n\n{$mail->textPlain}\n");
                     if ($mail->textHtml) print("\nHTML:\n\n{$mail->textHtml}\n\n");
