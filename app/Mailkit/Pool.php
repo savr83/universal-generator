@@ -31,7 +31,7 @@ class Pool extends Model
         return $this->hasMany(Rule::class);
     }
 
-    public function getActiveRules()
+    public function getActiveRulesAttribute()
     {
         $this->activeRules = $this->activeRules ?? $this->rules()->where('enabled', true)->orderBy('weight', 'desc');
         return $this->activeRules;
