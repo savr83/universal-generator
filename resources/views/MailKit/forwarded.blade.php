@@ -5,4 +5,4 @@
 <div>TEXT:</div>
 <div>{{ $textPlain }}</div>
 <div>HTML:</div>
-<div>{{ $textHtml }}</div>
+<iframe>{{ $textHtml }}</iframe>
