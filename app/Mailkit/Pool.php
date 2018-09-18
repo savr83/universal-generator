@@ -33,7 +33,7 @@ class Pool extends Model
 
     public function getActiveRulesAttribute()
     {
-        $this->activeRules = $this->activeRules ?? $this->rules()->where('enabled', true)->orderBy('weight', 'desc');
+        $this->activeRules = $this->activeRules ?? $this->rules()->enabled();
         return $this->activeRules;
     }
 }
