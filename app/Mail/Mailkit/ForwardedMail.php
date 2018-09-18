@@ -32,7 +32,7 @@ class ForwardedMail extends Mailable
      */
     public function build()
     {
-        return $this->from($this->fromAddress)
+        return $this->from("zakaz-rostov@agregat.me")
             ->view('MailKit.forwarded')
             ->with([
                 "id" => $this->mail->id,
@@ -41,6 +41,10 @@ class ForwardedMail extends Mailable
                 "subj" => $this->mail->subject,
                 "textPlain" => $this->mail->textPlain,
                 "textHtml" => $this->mail->textHtml
-        ]);
+            ])
+            ->withSwiftMessage(function ($message) {
+                $message->getHeaders()->addTextHeader('From', $this->fromAddress);
+                $message->getHeaders()->addTextHeader('Reply-To', $this->fromAddress);
+        });
     }
 }
