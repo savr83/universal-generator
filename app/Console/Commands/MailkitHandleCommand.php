@@ -59,7 +59,7 @@ class MailkitHandleCommand extends Command
 
                 foreach($mailsIds as $id) {
                     $mail = $mailbox->getMail($id, false);
-                    $rule = $pool->active_rules->first();
+                    $rule = $pool->active_rules->sortByDesc('priority')->first();
 
                     foreach ($pool->filters()->where('enabled', true) as $filter) {
                         switch($this->filterMail($filter, $mail)){
