@@ -25,6 +25,6 @@ class Rule extends Model
 
     public function pool()
     {
-        return $this->belongsTo(Rule::class);
+        return $this->belongsTo(Pool::class);
     }
 }
