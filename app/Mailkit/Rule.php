@@ -10,8 +10,9 @@ class Rule extends Model
 
     public function getPriorityAttribute()
     {
-        $plannedPercentage = $this->weight / $this->pool()->active_rules->sum('weight');
-        $realPercentage = ($this->pool()->active_rules->sum('counter') == 0) ? (1 / $this->pool()->active_rules->count()) : ($this->counter / $this->pool()->active_rules->sum('counter'));
+        $active_rules = $this->pool()->get()->active_rules;
+        $plannedPercentage = $this->weight / $active_rules->sum('weight');
+        $realPercentage = ($active_rules->sum('counter') == 0) ? (1 / $active_rules->count()) : ($this->counter / $active_rules->sum('counter'));
         $ret = $plannedPercentage - $realPercentage;
         print("Priority for rule: {$this->name} is: $ret [$plannedPercentage/$realPercentage]\n");
         return $ret;
