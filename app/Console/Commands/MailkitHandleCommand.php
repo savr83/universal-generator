@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\Mailkit\ForwardedMail;
 use App\Mailkit\Filter;
+use App\Mailkit\Log;
 use App\Mailkit\Pool;
 use App\Mailkit\Rule;
 use Illuminate\Console\Command;
-use InfiniteIterator;
+use Illuminate\Support\Facades\Mail;
 use PhpImap\Mailbox;
-use SplPriorityQueue;
 
 class MailkitHandleCommand extends Command
 {
@@ -50,24 +51,15 @@ class MailkitHandleCommand extends Command
         foreach (Pool::where('enabled', true)->get() as $pool){
             print("Handling pool: {$pool->name}\n");
 
-//            $queue = new SplPriorityQueue();
-            Rule::$currentRuleSet = $pool->rules()->where('enabled', true)->orderBy('weight', 'desc');
-            Rule::$currentRuleSet->update(['counter' => 0]);
-//            $rules = new InfiniteIterator(Rule::$currentRuleSet->getIterator());
-//            $rules->rewind();
-
             foreach ($pool->sources()->where('enabled', true)->get() as $source) {
                 print("Handling source: {$source->name}\n");
 
                 $mailbox = new Mailbox($source->connection, $source->login, $source->password);
                 $mailsIds = $mailbox->searchMailbox('ALL');
 
-//                $rule = $rules->current();
-//                $rule = Rule::$currentRuleSet->get()->max('priority');
-
                 foreach($mailsIds as $id) {
                     $mail = $mailbox->getMail($id, false);
-                    $rule = Rule::$currentRuleSet->get()->sortByDesc('priority')->first();
+                    $rule = $pool->active_rules->first();
 
                     foreach ($pool->filters()->where('enabled', true) as $filter) {
                         switch($this->filterMail($filter, $mail)){
@@ -82,23 +74,20 @@ class MailkitHandleCommand extends Command
                         }
                     }
                     print("mail from: {$mail->fromAddress} added using rule: {$rule->name} with priority: {$rule->priority}\n");
+                    Mail::to($rule->recipient_list)->send(new ForwardedMail($mail->fromAddress, $mail));
+                    $log = new Log();
+                    $log->from = $mail->fromAddress;
+                    $log->to = $rule->recipient_list;
+                    $log->result = "Ok";
+                    $log->pool_name = $pool->name;
+                    $log->rule()->associate($rule);
+                    $log->save();
                     $rule->increment('counter');
-
-//                    $queue->insert(['mail' => $mail, 'rule' => $rule], $rule->weight);
-
-//                    $rules->next();
-//                    $rule = $rules->current();
                 }
             }
-/*
-            print("Priority queue NEW ORDER:\n");
-            foreach ($queue as $item){
-                print("mail from: {$mail->fromAddress} using rule: {$rule->name} with priority: {$rule->weight}\n");
-            }
-*/
 
 /*
- *                    print("id: {$mail->id} recieved on {$mail->date}\nFrom: {$mail->fromName} <{$mail->fromAddress}>\nSubj: {$mail->subject}\n\n{$mail->textPlain}\n");
+                    print("id: {$mail->id} recieved on {$mail->date}\nFrom: {$mail->fromName} <{$mail->fromAddress}>\nSubj: {$mail->subject}\n\n{$mail->textPlain}\n");
                     if ($mail->textHtml) print("\nHTML:\n\n{$mail->textHtml}\n\n");
                     $att = null;
                     if ($att = $mail->getAttachments()) print_r($att);

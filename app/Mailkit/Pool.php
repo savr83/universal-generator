@@ -8,6 +8,8 @@ class Pool extends Model
 {
     use HasNamespaceTablePrefix;
 
+    private $activeRules = null;
+
     public function sources()
     {
         return $this->hasMany(Source::class);
@@ -27,5 +29,11 @@ class Pool extends Model
     public function rules()
     {
         return $this->hasMany(Rule::class);
+    }
+
+    public function getActiveRules()
+    {
+        $this->activeRules = $this->activeRules ?? $this->rules()->where('enabled', true)->orderBy('weight', 'desc');
+        return $this->activeRules;
     }
 }

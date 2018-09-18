@@ -8,16 +8,18 @@ class Rule extends Model
 {
     use HasNamespaceTablePrefix;
 
-    static public $currentRuleSet;
-
     public function getPriorityAttribute()
     {
-        $plannedPercentage = $this->weight / self::$currentRuleSet->sum('weight');
-        $realPercentage = (self::$currentRuleSet->sum('counter') == 0) ? (1 / self::$currentRuleSet->count()) : ($this->counter / self::$currentRuleSet->sum('counter'));
-//        $realPercentage = $this->counter * self::$currentRuleSet->avg('counter');
+        $plannedPercentage = $this->weight / $this->pool()->active_rules->sum('weight');
+        $realPercentage = ($this->pool()->active_rules->sum('counter') == 0) ? (1 / $this->pool()->active_rules->count()) : ($this->counter / $this->pool()->active_rules->sum('counter'));
         $ret = $plannedPercentage - $realPercentage;
         print("Priority for rule: {$this->name} is: $ret [$plannedPercentage/$realPercentage]\n");
         return $ret;
+    }
+
+    public function scopeEnabled($query)
+    {
+        return $query->where('enabled', true)->orderBy('weight', 'desc');
     }
 
     public function pool()
