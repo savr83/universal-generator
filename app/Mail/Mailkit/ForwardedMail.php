@@ -73,8 +73,8 @@ class ForwardedMail extends Mailable
 
                         $swift_attachment = Swift_Attachment::fromPath($attachment->filePath)->setDisposition($attachment->disposition);
                         if ($attachment->disposition === "inline") {
-                            $swift_attachment->getHeaders()->addTextHeader('Content-ID', $attachment->contentId);
-                            $swift_attachment->getHeaders()->addTextHeader('X-Attachment-Id', $attachment->contentId);
+                            $swift_attachment->getHeaders()->addTextHeader('Content-ID', "<{$attachment->contentId}>");
+                            $swift_attachment->getHeaders()->addTextHeader('X-Attachment-Id', "<{$attachment->contentId}>");
                         }
                         $message->embed($swift_attachment);
                     }
