@@ -36,8 +36,8 @@ class ForwardedMail extends Mailable
         $body = $this->mail->textPlain;
         $bodyType = "plain";
         if ($this->mail->textHtml) {
-            $head = preg_replace('<head>(.*)</head>', '\1', $this->mail->textHtml);
-            $body = preg_replace('<body>(.*)</body>', '\1', $this->mail->textHtml);
+            $head = preg_replace('#<head>(.*)</head>#', '\1', $this->mail->textHtml);
+            $body = preg_replace('#<body>(.*)</body>#', '\1', $this->mail->textHtml);
             $bodyType = "html";
         }
         print("BODY TYPE IS: $bodyType\n");
