@@ -69,11 +69,11 @@ class ForwardedMail extends Mailable
                     foreach ($attachments as $attachment) {
                         print("got attachment!\n");
                         dump($attachment);
-                        $swift_attachment = Swift_Attachment::fromPath($attachment->filePath)->setFilename($attachment->name);
+                        $swift_attachment = Swift_Attachment::fromPath($attachment->filePath)->setFilename("\"{$attachment->name}\"");
                         if ($attachment->disposition) $swift_attachment->setDisposition($attachment->disposition);
                         if ($attachment->contentId) {
                             $swift_attachment->getHeaders()->addTextHeader('Content-ID', "<{$attachment->contentId}>");
-                            $swift_attachment->getHeaders()->addTextHeader('X-Attachment-Id', "<{$attachment->contentId}>");
+//                            $swift_attachment->getHeaders()->addTextHeader('X-Attachment-Id', "<{$attachment->contentId}>");
                         }
                         $message->embed($swift_attachment);
                     }
