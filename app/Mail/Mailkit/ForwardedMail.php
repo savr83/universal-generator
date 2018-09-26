@@ -36,6 +36,16 @@ class ForwardedMail extends Mailable
         $body = preg_replace('/(\n)/su', '<br />', $this->mail->textPlain);
         $bodyType = "plain";
         if ($html = $this->mail->textHtml) {
+            $m = null;
+            if (preg_match_all('/<head[^>]*>(.*?)<\/head>/isu', $html, $m)) {
+                $head = $m[1];
+            }
+            if (preg_match_all('/<body[^>]*>(.*?)<\/body>/isu', $html, $m)) {
+                $body = $m[1];
+            } else {
+                $body = preg_replace('/<html[^>]*>(.*?)<\/html>/isu', '$1', $html);
+            }
+/*
             if (stripos($html, '<head')) {
                 $head = preg_replace('/<head[^>]*>(.*?)<\/head>/isu', '$1', $html);
             }
@@ -44,6 +54,7 @@ class ForwardedMail extends Mailable
             } else {
                 $body = preg_replace('/<html[^>]*>(.*?)<\/html>/isu', '$1', $html);
             }
+*/
             $bodyType = "html";
         }
         print("BODY TYPE IS: $bodyType\n---\nHEAD:\n$head\n---\nBODY:\n$body\n---\n");
