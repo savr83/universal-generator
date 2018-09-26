@@ -33,14 +33,14 @@ class ForwardedMail extends Mailable
     public function build()
     {
         $head = '';
-        $body = $this->mail->textPlain;
+        $body = preg_replace('#(\n)#u', '<br />', $this->mail->textPlain);
         $bodyType = "plain";
         if ($this->mail->textHtml) {
-            $head = preg_replace('#<head>(.*)</head>#', '\1', $this->mail->textHtml);
-            $body = preg_replace('#<body>(.*)</body>#', '\1', $this->mail->textHtml);
+            $head = preg_replace('#<head>(.*)</head>#u', '$1', $this->mail->textHtml);
+            $body = preg_replace('#<body>(.*)</body>#u', '$1', $this->mail->textHtml);
             $bodyType = "html";
         }
-        print("BODY TYPE IS: $bodyType\n");
+        print("BODY TYPE IS: $bodyType\n---\nHEAD:\n$head\n---\nBODY:\n$body\n---\n");
         return $this->from($this->fromAddress)
             ->view('MailKit.forwarded')
             ->with([
