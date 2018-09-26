@@ -49,6 +49,7 @@ class MailkitHandleCommand extends Command
     {
         print("Get emails using IMAP...\n");
         $tempDir = tempnam(sys_get_temp_dir(), 'mailkit_attach_');
+        mkdir($tempDir);
         print("Temporary directory is: $tempDir\n");
         foreach (Pool::where('enabled', true)->get() as $pool){
             print("Handling pool: {$pool->name}\n");
