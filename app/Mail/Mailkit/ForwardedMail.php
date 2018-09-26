@@ -76,7 +76,7 @@ class ForwardedMail extends Mailable
                             $swift_attachment->getHeaders()->addTextHeader('Content-ID', $attachment->contentId);
                             $swift_attachment->getHeaders()->addTextHeader('X-Attachment-Id', $attachment->contentId);
                         }
-                        $this->embed($swift_attachment);
+                        $message->embed($swift_attachment);
                     }
                 }
 
