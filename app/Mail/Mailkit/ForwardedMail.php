@@ -45,23 +45,20 @@ class ForwardedMail extends Mailable
             } else {
                 $body = preg_replace('/<html[^>]*>(.*?)<\/html>/isu', '$1', $html);
             }
-/*
-            if (stripos($html, '<head')) {
-                $head = preg_replace('/<head[^>]*>(.*?)<\/head>/isu', '$1', $html);
-            }
-            if (stripos($html, '<body')) {
-                $body = preg_replace('/<body[^>]*>(.*?)<\/body>/isu', '$1', $html);
-            } else {
-                $body = preg_replace('/<html[^>]*>(.*?)<\/html>/isu', '$1', $html);
-            }
-*/
             $bodyType = "html";
         }
-        print("BODY TYPE IS: $bodyType\n---\nHEAD:\n$head\n---\nBODY:\n$body\n---\n");
+//        print("BODY TYPE IS: $bodyType\n---\nHEAD:\n$head\n---\nBODY:\n$body\n---\n");
+        if ($att = $this->mail->getAttachments()) {
+            foreach ($att as $a) {
+                print("got attachment!\n");
+                dump($a);
+                //$this->attach('/path/to/file');
+            }
+        }
+
         return $this->from($this->fromAddress)
             ->view('MailKit.forwarded')
             ->with([
-//                "id" => $this->mail->id,
                 "date" => $this->mail->date,
                 "from" => $this->mail->fromAddress,
                 "subj" => $this->mail->subject,
