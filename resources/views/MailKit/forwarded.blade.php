@@ -1,8 +1,10 @@
-<div>{{ $id }}</div>
-<div>{{ $date }}</div>
-<div>{{ $from }}</div>
-<div>{{ $subj }}</div>
-<div>TEXT:</div>
-<div>{{ $textPlain }}</div>
-<div>HTML:</div>
-<iframe>{{ $textHtml }}</iframe>
+<head>
+    {{ $head }}
+</head>
+<body>
+<div>Msg id: {{ $id }} Recieved on: {{ $date }}</div>
+<div>FROM: {{ $from }}</div>
+<div>SUBJ: {{ $subj }}</div>
+<hr />
+<div>{{ body }}</div>
+</body>

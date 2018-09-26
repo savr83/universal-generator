@@ -32,15 +32,24 @@ class ForwardedMail extends Mailable
      */
     public function build()
     {
-        return $this->from("zakaz-rostov@agregat.me")
+        $head = '';
+        $body = $this->mail->textPlain;
+        $bodyType = "plain";
+        if ($this->mail->textHtml) {
+            $head = preg_replace('<head>(.*)</head>', '\1', $this->mail->textHtml);
+            $body = preg_replace('<body>(.*)</body>', '\1', $this->mail->textHtml);
+            $bodyType = "html";
+        }
+        print("BODY TYPE IS: $bodyType\n");
+        return $this->from($this->fromAddress)
             ->view('MailKit.forwarded')
             ->with([
                 "id" => $this->mail->id,
                 "date" => $this->mail->date,
                 "from" => $this->mail->fromAddress,
                 "subj" => $this->mail->subject,
-                "textPlain" => $this->mail->textPlain,
-                "textHtml" => $this->mail->textHtml
+                "head" => $head,
+                "body" => $body
             ])
             ->withSwiftMessage(function ($message) {
                 $message->getHeaders()->addTextHeader('From', $this->fromAddress);
