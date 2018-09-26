@@ -65,16 +65,16 @@ class ForwardedMail extends Mailable
                 $message->getHeaders()->addTextHeader('Reply-To', $this->mail->fromAddress);
                 $message->getHeaders()->addTextHeader('Subject', $this->mail->subject);
 
-                if ($att = $this->mail->getAttachments()) {
-                    foreach ($att as $a) {
+                if ($attachments = $this->mail->getAttachments()) {
+                    foreach ($attachments as $attachment) {
                         print("got attachment!\n");
-                        dump($a);
+                        dump($attachment);
 //                        $this->attach($a["filePath"], ["as" => $a["name"]])->setDisposition($a["disposition"]);
 
-                        $attachment = Swift_Attachment::fromPath($a["filePath"])->setDisposition($a["disposition"]);
-                        if ($a["disposition"] === "inline") {
-                            $attachment->getHeaders()->addTextHeader('Content-ID', $a["contentId"]);
-                            $attachment->getHeaders()->addTextHeader('X-Attachment-Id', $a["contentId"]);
+                        $attachment = Swift_Attachment::fromPath($attachment->filePath)->setDisposition($attachment->disposition);
+                        if ($attachment->disposition === "inline") {
+                            $attachment->getHeaders()->addTextHeader('Content-ID', $attachment->contentId);
+                            $attachment->getHeaders()->addTextHeader('X-Attachment-Id', $attachment->contentId);
                         }
                         $this->embed($attachment);
                     }
