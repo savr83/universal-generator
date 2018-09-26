@@ -48,13 +48,15 @@ class MailkitHandleCommand extends Command
     public function handle()
     {
         print("Get emails using IMAP...\n");
+        $tempDir = tempnam(sys_get_temp_dir(), 'mailkit_attach_');
+        print("Temporary directory is: $tempDir\n");
         foreach (Pool::where('enabled', true)->get() as $pool){
             print("Handling pool: {$pool->name}\n");
 
             foreach ($pool->sources()->where('enabled', true)->get() as $source) {
                 print("Handling source: {$source->name}\n");
 
-                $mailbox = new Mailbox($source->connection, $source->login, $source->password);
+                $mailbox = new Mailbox($source->connection, $source->login, $source->password, $tempDir);
                 $mailsIds = $mailbox->searchMailbox('ALL');
 
                 foreach($mailsIds as $id) {
@@ -86,17 +88,6 @@ class MailkitHandleCommand extends Command
                     $rule->increment('counter');
                 }
             }
-
-/*
-                    print("id: {$mail->id} recieved on {$mail->date}\nFrom: {$mail->fromName} <{$mail->fromAddress}>\nSubj: {$mail->subject}\n\n{$mail->textPlain}\n");
-                    if ($mail->textHtml) print("\nHTML:\n\n{$mail->textHtml}\n\n");
-                    $att = null;
-                    if ($att = $mail->getAttachments()) print_r($att);
-
-                    print_r($mail);
-                    if ($id > 2) break;
-
- */
         }
     }
 

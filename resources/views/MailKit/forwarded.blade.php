@@ -12,8 +12,9 @@
 </head>
 <body>
 <div class="blade-header">
-<div>From: {{ $from }} at: {{ $date }}</div>
+<div>From: {{ $from }}</div>
 <div>Subj: {{ $subj }}</div>
+<div>Original message type: {{ $type }} received at: {{ $date }}</div>
 <hr />
 </div>
 <div class="blade-body">{!! $body !!}</div>

@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Swift_Attachment;
 
 class ForwardedMail extends Mailable
 {
@@ -48,13 +49,6 @@ class ForwardedMail extends Mailable
             $bodyType = "html";
         }
 //        print("BODY TYPE IS: $bodyType\n---\nHEAD:\n$head\n---\nBODY:\n$body\n---\n");
-        if ($att = $this->mail->getAttachments()) {
-            foreach ($att as $a) {
-                print("got attachment!\n");
-                dump($a);
-                //$this->attach('/path/to/file');
-            }
-        }
 
         return $this->from($this->fromAddress)
             ->view('MailKit.forwarded')
@@ -62,6 +56,7 @@ class ForwardedMail extends Mailable
                 "date" => $this->mail->date,
                 "from" => $this->mail->fromAddress,
                 "subj" => $this->mail->subject,
+                "type" => $bodyType,
                 "head" => $head,
                 "body" => $body
             ])
@@ -69,6 +64,22 @@ class ForwardedMail extends Mailable
                 $message->getHeaders()->addTextHeader('From', $this->mail->fromAddress);
                 $message->getHeaders()->addTextHeader('Reply-To', $this->mail->fromAddress);
                 $message->getHeaders()->addTextHeader('Subject', $this->mail->subject);
+
+                if ($att = $this->mail->getAttachments()) {
+                    foreach ($att as $a) {
+                        print("got attachment!\n");
+                        dump($a);
+//                        $this->attach($a["filePath"], ["as" => $a["name"]])->setDisposition($a["disposition"]);
+
+                        $attachment = Swift_Attachment::fromPath($a["filePath"])->setDisposition($a["disposition"]);
+                        if ($a["disposition"] === "inline") {
+                            $attachment->getHeaders()->addTextHeader('Content-ID', $a["contentId"]);
+                            $attachment->getHeaders()->addTextHeader('X-Attachment-Id', $a["contentId"]);
+                        }
+                        $this->embed($attachment);
+                    }
+                }
+
         });
     }
 }
