@@ -44,7 +44,7 @@ class ForwardedMail extends Mailable
         return $this->from($this->fromAddress)
             ->view('MailKit.forwarded')
             ->with([
-                "id" => $this->mail->id,
+//                "id" => $this->mail->id,
                 "date" => $this->mail->date,
                 "from" => $this->mail->fromAddress,
                 "subj" => $this->mail->subject,

@@ -1,10 +1,20 @@
 <head>
-    {{ $head }}
+{!! $head !!}
+<style>
+    .blade-header {
+        margin: 8px;
+        background: #f0e68c;
+    }
+    .blade-body {
+        margin: 8px;
+    }
+</style>
 </head>
 <body>
-<div>Msg id: {{ $id }} Recieved on: {{ $date }}</div>
-<div>FROM: {{ $from }}</div>
-<div>SUBJ: {{ $subj }}</div>
+<div class="blade-header">
+<div>From: {{ $from }} at: {{ $date }}</div>
+<div>Subj: {{ $subj }}</div>
 <hr />
-<div>{{ $body }}</div>
+</div>
+<div class="blade-body">{!! $body !!}</div>
 </body>
