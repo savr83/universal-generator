@@ -6,5 +6,5 @@
 <div>FROM: {{ $from }}</div>
 <div>SUBJ: {{ $subj }}</div>
 <hr />
-<div>{{ body }}</div>
+<div>{{ $body }}</div>
 </body>
