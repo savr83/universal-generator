@@ -71,12 +71,12 @@ class ForwardedMail extends Mailable
                         dump($attachment);
 //                        $this->attach($a["filePath"], ["as" => $a["name"]])->setDisposition($a["disposition"]);
 
-                        $attachment = Swift_Attachment::fromPath($attachment->filePath)->setDisposition($attachment->disposition);
+                        $swift_attachment = Swift_Attachment::fromPath($attachment->filePath)->setDisposition($attachment->disposition);
                         if ($attachment->disposition === "inline") {
-                            $attachment->getHeaders()->addTextHeader('Content-ID', $attachment->contentId);
-                            $attachment->getHeaders()->addTextHeader('X-Attachment-Id', $attachment->contentId);
+                            $swift_attachment->getHeaders()->addTextHeader('Content-ID', $attachment->contentId);
+                            $swift_attachment->getHeaders()->addTextHeader('X-Attachment-Id', $attachment->contentId);
                         }
-                        $this->embed($attachment);
+                        $this->embed($swift_attachment);
                     }
                 }
 
