@@ -38,10 +38,10 @@ class ForwardedMail extends Mailable
         if ($html = $this->mail->textHtml) {
             $m = null;
             if (preg_match_all('/<head[^>]*>(.*?)<\/head>/isu', $html, $m)) {
-                $head = $m[1];
+                $head = $m[1][0];
             }
             if (preg_match_all('/<body[^>]*>(.*?)<\/body>/isu', $html, $m)) {
-                $body = $m[1];
+                $body = $m[1][0];
             } else {
                 $body = preg_replace('/<html[^>]*>(.*?)<\/html>/isu', '$1', $html);
             }
