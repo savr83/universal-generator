@@ -52,8 +52,8 @@ class ForwardedMail extends Mailable
                 "body" => $body
             ])
             ->withSwiftMessage(function ($message) {
-                $message->getHeaders()->addTextHeader('From', $this->fromAddress);
-                $message->getHeaders()->addTextHeader('Reply-To', $this->fromAddress);
+                $message->getHeaders()->addTextHeader('From', $this->mail->fromAddress);
+                $message->getHeaders()->addTextHeader('Reply-To', $this->mail->fromAddress);
                 $message->getHeaders()->addTextHeader('Subject', $this->mail->subject);
         });
     }
