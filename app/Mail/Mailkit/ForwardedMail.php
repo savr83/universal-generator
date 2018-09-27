@@ -7,6 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Swift_Attachment;
+use Swift_Message;
 
 class ForwardedMail extends Mailable
 {
@@ -59,9 +60,11 @@ class ForwardedMail extends Mailable
                 "head" => $head,
                 "body" => $body
             ])
-            ->withSwiftMessage(function ($message) {
-                $message->getHeaders()->get('From')->setValue($this->mail->fromAddress);
-                $message->getHeaders()->get('Subject')->setValue($this->mail->subject);
+            ->withSwiftMessage(function (Swift_Message $message) {
+                $message->setFrom($this->mail->fromAddress);
+                $message->setSubject($this->mail->subject);
+//                $message->getHeaders()->get('From')->setValue($this->mail->fromAddress);
+//                $message->getHeaders()->get('Subject')->setValue($this->mail->subject);
                 $message->getHeaders()->addTextHeader('Reply-To', $this->mail->fromAddress);
 
                 if ($attachments = $this->mail->getAttachments()) {
