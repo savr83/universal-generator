@@ -60,9 +60,9 @@ class ForwardedMail extends Mailable
                 "body" => $body
             ])
             ->withSwiftMessage(function ($message) {
-                $message->getHeaders()->addTextHeader('From', $this->mail->fromAddress);
+                $message->getHeaders()->get('From')->setValue($this->mail->fromAddress);
+                $message->getHeaders()->get('Subject')->setValue($this->mail->subject);
                 $message->getHeaders()->addTextHeader('Reply-To', $this->mail->fromAddress);
-                $message->getHeaders()->addTextHeader('Subject', $this->mail->subject);
 
                 if ($attachments = $this->mail->getAttachments()) {
                     foreach ($attachments as $attachment) {
@@ -71,8 +71,7 @@ class ForwardedMail extends Mailable
                         $swift_attachment = Swift_Attachment::fromPath($attachment->filePath)->setFilename($attachment->name);
                         $swift_attachment->setDisposition($attachment->disposition ?? "inline");
                         if ($attachment->contentId) {
-                            $swift_attachment->getHeaders()->addTextHeader('Content-ID', "<{$attachment->contentId}>");
-//                            $swift_attachment->getHeaders()->addTextHeader('X-Attachment-Id', "<{$attachment->contentId}>");
+                            $swift_attachment->getHeaders()->addIdHeader('Content-ID', $attachment->contentId);
                         }
                         $message->embed($swift_attachment);
                     }
