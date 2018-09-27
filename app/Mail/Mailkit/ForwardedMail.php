@@ -48,8 +48,7 @@ class ForwardedMail extends Mailable
             }
             $bodyType = "html";
         }
-//        print("BODY TYPE IS: $bodyType\n---\nHEAD:\n$head\n---\nBODY:\n$body\n---\n");
-
+        dump($this->mail);
         return $this->from($this->fromAddress)
             ->view('MailKit.forwarded')
             ->with([

@@ -40,17 +40,19 @@ class MailkitHandleCommand extends Command
     /**
      * Execute the console command.
      *
-     *   $mailbox = new Mailbox('{imap.beget.com:143/imap}INBOX', 'zakaz-rostov', 'NsOxD5v%', __DIR__);
-     *   $mailbox = new Mailbox('{imap.beget.com:993/imap/ssl}INBOX', 'zakaz-rostov@agregat.me', 'NsOxD5v%');
+     *   {imap.beget.com:143/imap}INBOX
+     *   {imap.beget.com:993/imap/ssl}INBOX
      *
      * @return mixed
      */
     public function handle()
     {
         print("Get emails using IMAP...\n");
+
         $tempDir = sys_get_temp_dir() . '/mailkit_attach';
-        mkdir($tempDir);
+        if (!is_dir($tempDir)) mkdir($tempDir);
         print("Temporary directory is: $tempDir\n");
+
         foreach (Pool::where('enabled', true)->get() as $pool){
             print("Handling pool: {$pool->name}\n");
 
@@ -78,7 +80,6 @@ class MailkitHandleCommand extends Command
                     }
                     print("mail from: {$mail->fromAddress} added using rule: {$rule->name} with priority: {$rule->priority}\n");
                     Mail::to($rule->recipient_list)->send(new ForwardedMail($source->login, $mail));
-//                    print((new ForwardedMail($source->login, $mail))->render());
                     $log = new Log();
                     $log->from = $mail->fromAddress;
                     $log->to = $rule->recipient_list;
