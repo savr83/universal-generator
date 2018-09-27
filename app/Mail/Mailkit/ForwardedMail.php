@@ -48,7 +48,7 @@ class ForwardedMail extends Mailable
             }
             $bodyType = "html";
         }
-        dump($this->mail);
+        if ($this->mail->fromAddress == "olga.mishina@rencons.com") dump($this->mail);
         return $this->from($this->fromAddress)
             ->view('MailKit.forwarded')
             ->with([
