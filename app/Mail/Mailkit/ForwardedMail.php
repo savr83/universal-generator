@@ -42,7 +42,7 @@ class ForwardedMail extends Mailable
             $m = null;
             if (preg_match_all('/<head[^>]*>(.*?)<\/head>/isu', $html, $m)) {
                 $head = $m[1][0];
-                if (preg_match_all('<meta.*?charset=([^"\']+)', $html, $mc)) $charset = $mc[1][0];
+                if (preg_match_all('/<meta.*?charset=([^"\']+)/', $html, $mc)) $charset = $mc[1][0];
             }
             if (preg_match_all('/<body[^>]*>(.*?)<\/body>/isu', $html, $m)) {
                 $body = $m[1][0];
