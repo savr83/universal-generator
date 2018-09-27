@@ -61,7 +61,7 @@ class ForwardedMail extends Mailable
                 "body" => $body
             ])
             ->withSwiftMessage(function (Swift_Message $message) {
-                $message->setFrom($this->mail->fromAddress);
+//                $message->setFrom($this->mail->fromAddress);
                 $message->setSubject($this->mail->subject);
 //                $message->getHeaders()->get('From')->setValue($this->mail->fromAddress);
 //                $message->getHeaders()->get('Subject')->setValue($this->mail->subject);
