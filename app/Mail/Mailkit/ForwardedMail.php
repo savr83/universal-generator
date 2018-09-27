@@ -36,11 +36,13 @@ class ForwardedMail extends Mailable
     {
         $head = '';
         $body = preg_replace('/(\n)/su', '<br />', $this->mail->textPlain);
+        $charset = '';
         $bodyType = "plain";
         if ($html = $this->mail->textHtml) {
             $m = null;
             if (preg_match_all('/<head[^>]*>(.*?)<\/head>/isu', $html, $m)) {
                 $head = $m[1][0];
+                if (preg_match_all('<meta.*?charset=([^"\']+)', $html, $mc)) $charset = $mc[1][0];
             }
             if (preg_match_all('/<body[^>]*>(.*?)<\/body>/isu', $html, $m)) {
                 $body = $m[1][0];
@@ -55,16 +57,16 @@ class ForwardedMail extends Mailable
             ->with([
                 "date" => $this->mail->date,
                 "from" => $this->mail->fromAddress,
-                "subj" => $this->mail->subject,
+                "subj" => $this->mail->headers->subject,
                 "type" => $bodyType,
                 "head" => $head,
                 "body" => $body
             ])
-            ->withSwiftMessage(function (Swift_Message $message) {
-//                $message->setFrom($this->mail->fromAddress);
-//                $message->getHeaders()->get('From')->setValue($this->mail->fromAddress);
+            ->withSwiftMessage(function (Swift_Message $message) use ($charset) {
+                $message->addFrom($this->mail->fromAddress, ($this->mail->fromName ? $this->mail->fromName : $this->mail->fromAddress));
                 $message->setReplyTo($this->mail->fromAddress, ($this->mail->fromName ? $this->mail->fromName : $this->mail->fromAddress));
                 $message->setSubject($this->mail->headers->subject);
+                if ($charset) $message->setCharset($charset);
 
                 if ($attachments = $this->mail->getAttachments()) {
                     foreach ($attachments as $attachment) {
