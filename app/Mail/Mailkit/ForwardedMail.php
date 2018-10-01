@@ -25,6 +25,10 @@ class ForwardedMail extends Mailable
     {
         $this->fromAddress = $login;
         $this->mail = $mail;
+        config()->set([
+            'mail.username' => $login,
+            'mail.password' => $password
+        ]);
     }
 
     /**
