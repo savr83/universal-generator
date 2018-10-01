@@ -60,6 +60,8 @@ class MailkitHandleCommand extends Command
                 print("Handling source: {$source->name}\n");
 
                 $mailbox = new Mailbox($source->connection, $source->login, $source->password, $tempDir);
+                config()->set(['mail.username' => $source->login, 'mail.password' => $source->password]);
+
                 // https://tools.ietf.org/html/rfc3501#section-9
                 // date('j-M-Y') -1 day
                 $criteria = $source->lastmail_id ? 'SINCE ' . date('j-M-Y', strtotime($source->lastmail_id . ' -1 day')) : 'ALL';
@@ -101,12 +103,7 @@ class MailkitHandleCommand extends Command
                     }
                     print("mail from: {$mail->fromAddress} added using rule: {$rule->name} with priority: {$rule->priority}\n");
                     dump($mail);
-                    /*
-                    config()->set([
-                        'mail.username' => $source->login,
-                        'mail.password' => $source->password
-                    ]);
-                    */
+
                     Mail::to($rule->recipient_list)->send(new ForwardedMail($source->login, $source->password, $mail));
                     $log = new Log();
                     $log->from = $mail->fromAddress;

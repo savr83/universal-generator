@@ -21,14 +21,10 @@ class ForwardedMail extends Mailable
      *
      * @return void
      */
-    public function __construct($login, $password, $mail = null)
+    public function __construct($login, $mail = null)
     {
         $this->fromAddress = $login;
         $this->mail = $mail;
-        config()->set([
-            'mail.username' => $login,
-            'mail.password' => $password
-        ]);
     }
 
     /**
@@ -67,7 +63,6 @@ class ForwardedMail extends Mailable
                 "body" => $body
             ])
             ->withSwiftMessage(function (Swift_Message $message) use ($charset) {
-//                $message->setFrom($this->fromAddress, ($this->mail->fromName ? $this->mail->fromName : $this->mail->fromAddress));
                 $message->setReplyTo($this->mail->fromAddress, ($this->mail->fromName ? $this->mail->fromName : $this->mail->fromAddress));
                 $message->setSubject($this->mail->headers->subject);
 //                if ($charset) $message->setCharset($charset);
