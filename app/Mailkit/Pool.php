@@ -16,7 +16,20 @@ class Pool extends Model
     }
     public function filters()
     {
-        return $this->hasMany(Filter::class);
+        return $this->hasMany(Filter::class) ?? $this->defaultFilter();
+    }
+
+    public function defaultFilter()
+    {
+// [A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64} ???
+        return $this->hasOne(Filter::class)->withDefault(function ($filter) {
+            $filter->mail_field = "fromAddress";
+            $filter->regexp = "/.+@.+\..+/";
+            $filter->action = Filter::ACTION_REPLY;
+            $filter->pool()->associate($this);
+            $filter->rule()->associate($this->defaultRule());
+        }
+);
     }
 
     public function defaultRule()

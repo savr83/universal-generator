@@ -51,19 +51,19 @@ class ForwardedMail extends Mailable
             }
             $bodyType = "html";
         }
-        if ($this->mail->fromAddress == "olga.mishina@rencons.com") dump($this->mail);
-        return $this->from($this->fromAddress)
+        return $this->from($this->fromAddress, ($this->mail->fromName ? $this->mail->fromName : $this->mail->fromAddress))
             ->view('MailKit.forwarded')
             ->with([
                 "date" => $this->mail->date,
                 "from" => $this->mail->fromAddress,
-                "subj" => $this->mail->headers->subject,
+                "subj" => $this->mail->subject,
+                "charset" => $charset,
                 "type" => $bodyType,
                 "head" => $head,
                 "body" => $body
             ])
             ->withSwiftMessage(function (Swift_Message $message) use ($charset) {
-                $message->setFrom($this->fromAddress, ($this->mail->fromName ? $this->mail->fromName : $this->mail->fromAddress));
+//                $message->setFrom($this->fromAddress, ($this->mail->fromName ? $this->mail->fromName : $this->mail->fromAddress));
                 $message->setReplyTo($this->mail->fromAddress, ($this->mail->fromName ? $this->mail->fromName : $this->mail->fromAddress));
                 $message->setSubject($this->mail->headers->subject);
 //                if ($charset) $message->setCharset($charset);

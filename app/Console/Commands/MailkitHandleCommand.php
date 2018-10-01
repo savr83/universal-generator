@@ -60,7 +60,11 @@ class MailkitHandleCommand extends Command
                 print("Handling source: {$source->name}\n");
 
                 $mailbox = new Mailbox($source->connection, $source->login, $source->password, $tempDir);
-                $mailsIds = $mailbox->searchMailbox('ALL');
+                // https://tools.ietf.org/html/rfc3501#section-9
+                // date('j-M-Y') -1 day
+                $criteria = $source->lastmail_id ? 'ALL' : 'SINCE ' . date('j-M-Y', strtotime($source->lastmail_id . ' -1 day'));
+                print("Searching criteria: $criteria\n");
+                $mailsIds = $mailbox->searchMailbox($criteria);
 
                 foreach($mailsIds as $id) {
                     $mail = $mailbox->getMail($id, false);

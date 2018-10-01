@@ -16,6 +16,7 @@
         <div>From: {{ $from }}</div>
         <div>Subj: {{ $subj }}</div>
         <div>Original message type: {{ $type }} received at: {{ $date }}</div>
+        <div>Detected charset: {{ $charset }}</div>
         <hr />
         </div>
         <div class="blade-body">{!! $body !!}</div>
