@@ -21,10 +21,14 @@ class ForwardedMail extends Mailable
      *
      * @return void
      */
-    public function __construct($from = "email@site.com", $mail = null)
+    public function __construct($login, $password, $mail = null)
     {
-        $this->fromAddress = $from;
+        $this->fromAddress = $login;
         $this->mail = $mail;
+        config()->set([
+            'mail.username' => $login,
+            'mail.password' => $password
+        ]);
     }
 
     /**
