@@ -101,7 +101,7 @@ class MailkitHandleCommand extends Command
                     }
                     print("mail from: {$mail->fromAddress} added using rule: {$rule->name} with priority: {$rule->priority}\n");
                     dump($mail);
-                    Mail:send(new ForwardedMail($source->login, $source->password, $mail))->to($rule->recipient_list);
+                    Mail::send(new ForwardedMail($source->login, $source->password, $mail))->to($rule->recipient_list);
                     $log = new Log();
                     $log->from = $mail->fromAddress;
                     $log->to = $rule->recipient_list;
