@@ -69,16 +69,29 @@ class MailkitHandleCommand extends Command
                     foreach ($pool->filters()->where('enabled', true) as $filter) {
                         switch($this->filterMail($filter, $mail)){
                             case Filter::ACTION_SEND:
+                                $linked_filter = new Filter();
+                                $linked_filter->mail_field = "fromAddress";
+                                $linked_filter->regexp = "/{$mail->fromAddress}/";
+                                $linked_filter->action = Filter::ACTION_REPLY;
+                                $linked_filter->pool()->associate($pool);
+                                $linked_filter->rule()->associate($rule);
+                                $linked_filter->save();
+                                break;
+                            case Filter::ACTION_REPLY:
+                                $rule = $filter->rule();
                                 break;
                             case Filter::ACTION_REJECT:
                                 $rule = $pool->defaultRule();
                                 break;
-                            case Filter::ACTION_NOACTION:
+                            case Filter::ACTION_DEFAULT:
                             default:
+                                $rule = $pool->defaultRule();
                                 break;
                         }
                     }
                     print("mail from: {$mail->fromAddress} added using rule: {$rule->name} with priority: {$rule->priority}\n");
+                    dump($mail);
+                    if ($c ++ > 2) return;
                     Mail::to($rule->recipient_list)->send(new ForwardedMail($source->login, $mail));
                     $log = new Log();
                     $log->from = $mail->fromAddress;
@@ -96,7 +109,7 @@ class MailkitHandleCommand extends Command
     public function filterMail($filter, $mail)
     {
         print("Checking mail filter: {$filter->name}\n");
-        $ret = (preg_match($filter->regexp, $mail[$filter->mail_field])) ? $filter->action : Filter::ACTION_NOACTION;
+        $ret = (preg_match($filter->regexp, $mail[$filter->mail_field])) ? $filter->action : Filter::ACTION_DEFAULT;
         print("Filter action: $ret\n");
         return $ret;
     }

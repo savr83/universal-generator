@@ -10,6 +10,6 @@ class Log extends Model
 
     public function rule()
     {
-        return $this->belongsTo(Pool::class);
+        return $this->belongsTo(Rule::class);
     }
 }
