@@ -64,6 +64,12 @@ class MailkitHandleCommand extends Command
 
                 foreach($mailsIds as $id) {
                     $mail = $mailbox->getMail($id, false);
+
+                    if ($source->lastmail_id && $mail->date < $source->lastmail_id) {
+                        print("Mail already handled (from: {$mail->fromAddress} date: {$mail->date}) SKIPPED!\n");
+                        continue;
+                    }
+
                     $rule = $pool->active_rules->get()->sortByDesc('priority')->first();
 
                     foreach ($pool->filters()->where('enabled', true) as $filter) {
@@ -91,7 +97,6 @@ class MailkitHandleCommand extends Command
                     }
                     print("mail from: {$mail->fromAddress} added using rule: {$rule->name} with priority: {$rule->priority}\n");
                     dump($mail);
-                    if ($c ++ > 2) return;
                     Mail::to($rule->recipient_list)->send(new ForwardedMail($source->login, $mail));
                     $log = new Log();
                     $log->from = $mail->fromAddress;
@@ -101,6 +106,10 @@ class MailkitHandleCommand extends Command
                     $log->rule()->associate($rule);
                     $log->save();
                     $rule->increment('counter');
+
+                    print("Updating marker: \n");
+                    $source->lastmail_id = $mail->date;
+                    $source->save();
                 }
             }
         }
