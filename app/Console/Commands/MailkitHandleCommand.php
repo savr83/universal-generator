@@ -65,7 +65,7 @@ class MailkitHandleCommand extends Command
                 foreach($mailsIds as $id) {
                     $mail = $mailbox->getMail($id, false);
 
-                    if ($source->lastmail_id && $mail->date < $source->lastmail_id) {
+                    if ($source->lastmail_id && $mail->date <= $source->lastmail_id) {
                         print("Mail already handled (from: {$mail->fromAddress} date: {$mail->date}) SKIPPED!\n");
                         continue;
                     }
