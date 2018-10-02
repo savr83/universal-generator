@@ -23,9 +23,10 @@ class Pool extends Model
         return $filters;
     }
 
-    public function getFiltersAttribute($value)
+    public function getActiveFiltersAttribute()
     {
         print("Inside filters ACCESSOR!!!\n");
+        $value = $this->filters()->enabled();
         dump($value);
         return collect($value)->isEmpty() ? collect($this->defaultFilter()) : $value;
     }

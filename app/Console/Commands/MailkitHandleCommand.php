@@ -78,7 +78,7 @@ class MailkitHandleCommand extends Command
 
                     $rule = $pool->active_rules->get()->sortByDesc('priority')->first();
 
-                    foreach ($pool->filters()->where('enabled', true) as $filter) {
+                    foreach ($pool->active_filters as $filter) {
                         switch($this->filterMail($filter, $mail)){
                             case Filter::ACTION_SEND:
                                 $linked_filter = new Filter();
