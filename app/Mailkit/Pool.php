@@ -17,7 +17,7 @@ class Pool extends Model
     public function filters()
     {
         $filters = $this->hasMany(Filter::class);
-        if ($filters->get()->isEmpty()) $filters->get()->push($this->defaultFilter());
+        if ($filters->get()->isEmpty()) $filters = collect($this->defaultFilter());
         print("Inside filters call!!!\n");
         dump($filters->get());
         return $filters;
@@ -26,7 +26,7 @@ class Pool extends Model
     public function defaultFilter()
     {
 // [A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64} ???
-        return $this->belongsTo(Filter::class)->withDefault(function ($filter) {
+        return $this->hasOne(Filter::class)->withDefault(function ($filter) {
             $filter->mail_field = "fromAddress";
             $filter->regexp = "/.+@.+\..+/";
             $filter->action = Filter::ACTION_REPLY;
