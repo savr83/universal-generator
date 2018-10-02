@@ -3,22 +3,23 @@
     {!! $head !!}
     <style>
         .blade-header {
-            margin: 8px;
-            background: #f0e68c;
+            margin: 0;
         }
         .blade-body {
-            margin: 8px;
+            margin: 0;
         }
     </style>
     </head>
     <body>
+    <!--
         <div class="blade-header">
-        <div>From: {{ $from }}</div>
-        <div>Subj: {{ $subj }}</div>
-        <div>Original message type: {{ $type }} received at: {{ $date }}</div>
-        <div>Detected charset: {{ $charset }}</div>
-        <hr />
+            <div>MailKit debug info</div>
+            <div>From: {{ $from }}</div>
+            <div>Subj: {{ $subj }}</div>
+            <div>Original message type: {{ $type }} received at: {{ $date }}</div>
+            <div>Detected charset: {{ $charset }}</div>
         </div>
+    -->
         <div class="blade-body">{!! $body !!}</div>
     </body>
 </html>

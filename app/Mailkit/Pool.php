@@ -28,6 +28,7 @@ class Pool extends Model
             $filter->mail_field = "fromAddress";
             $filter->regexp = "/.+@.+\..+/";
             $filter->action = Filter::ACTION_REPLY;
+            $filter->enabled = true;
             $filter->pool()->associate($this);
             $filter->rule()->associate($this->defaultRule());
         }
