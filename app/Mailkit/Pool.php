@@ -18,6 +18,8 @@ class Pool extends Model
     {
         $filters = $this->hasMany(Filter::class);
         if ($filters->get()->isEmpty()) $filters->get()->push($this->defaultFilter());
+        print("Inside filters call!!!\n");
+        dump($filters);
         return $filters;
     }
 

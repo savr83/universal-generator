@@ -73,8 +73,10 @@ class ForwardedMail extends Mailable
                         dump($attachment);
                         $swift_attachment = Swift_Attachment::fromPath($attachment->filePath)->setFilename($attachment->name);
                         $swift_attachment->setDisposition($attachment->disposition ?? "inline");
-                        if ($attachment->contentId) {
-                            $swift_attachment->getHeaders()->addIdHeader('Content-ID', $attachment->contentId);
+                        if ($contentId = $attachment->contentId) {
+                            if (!strpos($contentId, '@')) $contentId .= "@agregat.me";
+                            $swift_attachment->setId('Content-ID', $contentId);
+//                            $swift_attachment->getHeaders()->addIdHeader('Content-ID', $attachment->contentId);
                         }
                         $message->embed($swift_attachment);
                     }
