@@ -27,8 +27,9 @@ class Pool extends Model
     {
         print("Inside filters ACCESSOR!!!\n");
         $value = $this->filters()->enabled();
-        dump($value);
-        return collect($value)->isEmpty() ? collect($this->defaultFilter()) : $value;
+        $value = collect($value)->isEmpty() ? collect($this->defaultFilter()) : $value;
+        dump($value)->get();
+        return $value;
     }
 
     public function defaultFilter()
