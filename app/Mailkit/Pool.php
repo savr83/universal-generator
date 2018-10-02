@@ -17,10 +17,17 @@ class Pool extends Model
     public function filters()
     {
         $filters = $this->hasMany(Filter::class);
-        if ($filters->get()->isEmpty()) $filters = collect($this->defaultFilter());
+//        if ($filters->get()->isEmpty()) $filters = $filters->get()->push($this->defaultFilter());
         print("Inside filters call!!!\n");
         dump($filters->get());
         return $filters;
+    }
+
+    public function getFiltersAttribute($value)
+    {
+        print("Inside filters ACCESSOR!!!\n");
+        dump($value);
+        return collect($value)->isEmpty() ? collect($this->defaultFilter()) : $value;
     }
 
     public function defaultFilter()
