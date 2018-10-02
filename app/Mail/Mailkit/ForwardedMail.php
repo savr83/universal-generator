@@ -65,6 +65,9 @@ class ForwardedMail extends Mailable
             ->withSwiftMessage(function (Swift_Message $message) use ($charset) {
                 $message->setReplyTo($this->mail->fromAddress, ($this->mail->fromName ? $this->mail->fromName : $this->mail->fromAddress));
                 $message->setSubject($this->mail->headers->subject ?? '');
+                /**
+                 *  ks_c_5601-1987 is not supported by mb_convert_encoding()
+                 */
 //                if ($charset) $message->setCharset($charset);
 
                 if ($attachments = $this->mail->getAttachments()) {
@@ -74,10 +77,12 @@ class ForwardedMail extends Mailable
                         $swift_attachment = Swift_Attachment::fromPath($attachment->filePath)->setFilename($attachment->name);
                         $swift_attachment->setDisposition($attachment->disposition ?? "inline");
                         if ($contentId = $attachment->contentId) {
+                            /**
+                             * Swiftmail rejects illegal Content-ID according to:
+                             * http://www.faqs.org/rfcs/rfc2111.html and http://www.faqs.org/rfcs/rfc822.html
+                             */
                             if (!strpos($contentId, '@')) $contentId .= "@agregat.me";
-                            print("Content-Id: $contentId\n");
                             $swift_attachment->setId($contentId);
-//                            $swift_attachment->getHeaders()->addIdHeader('Content-ID', $attachment->contentId);
                         }
                         $message->embed($swift_attachment);
                     }

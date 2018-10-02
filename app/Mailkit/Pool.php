@@ -27,10 +27,10 @@ class Pool extends Model
     {
         print("Inside filters ACCESSOR!!!\n");
         $value = $this->filters()->enabled();
-        dump($value->get());
-        print('collect($value)->isEmpty() == ' . collect($value)->isEmpty() . "\n");
+        dump($value);
+        print('collect($value)->isEmpty() == ' . (collect($value)->isEmpty() ? '1' : '0') . "\n");
         $value = collect($value)->isEmpty() ? collect($this->defaultFilter()) : $value;
-        dump($value->get());
+        dump($value);
         return $value;
     }
 
