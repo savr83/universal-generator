@@ -64,7 +64,7 @@ class ForwardedMail extends Mailable
             ])
             ->withSwiftMessage(function (Swift_Message $message) use ($charset) {
                 $message->setReplyTo($this->mail->fromAddress, ($this->mail->fromName ? $this->mail->fromName : $this->mail->fromAddress));
-                $message->setSubject($this->mail->headers->subject) ?? '';
+                $message->setSubject($this->mail->headers->subject ?? '');
 //                if ($charset) $message->setCharset($charset);
 
                 if ($attachments = $this->mail->getAttachments()) {
