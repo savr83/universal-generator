@@ -76,7 +76,7 @@ class ForwardedMail extends Mailable
                         if ($contentId = $attachment->contentId) {
                             if (!strpos($contentId, '@')) $contentId .= "@agregat.me";
                             print("Content-Id: $contentId\n");
-                            $swift_attachment->setId('Content-ID', $contentId);
+                            $swift_attachment->setId($contentId);
 //                            $swift_attachment->getHeaders()->addIdHeader('Content-ID', $attachment->contentId);
                         }
                         $message->embed($swift_attachment);

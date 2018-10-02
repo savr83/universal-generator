@@ -26,7 +26,7 @@ class Pool extends Model
     public function defaultFilter()
     {
 // [A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64} ???
-        return $this->hasOne(Filter::class)->withDefault(function ($filter) {
+        return $this->belongsTo(Filter::class)->withDefault(function ($filter) {
             $filter->mail_field = "fromAddress";
             $filter->regexp = "/.+@.+\..+/";
             $filter->action = Filter::ACTION_REPLY;
