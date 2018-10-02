@@ -18,6 +18,11 @@ class Filter extends Model
         return $this->belongsTo(Pool::class);
     }
 
+    public function scopeEnabled($query)
+    {
+        return $query->where('enabled', true);
+    }
+
     public function rule()
     {
         return $this->hasOne(Rule::class);
