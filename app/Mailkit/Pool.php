@@ -27,6 +27,8 @@ class Pool extends Model
     {
         print("Inside filters ACCESSOR!!!\n");
         $value = $this->filters()->enabled();
+        dump($value->get());
+        print('collect($value)->isEmpty() == ' . collect($value)->isEmpty() . "\n");
         $value = collect($value)->isEmpty() ? collect($this->defaultFilter()) : $value;
         dump($value->get());
         return $value;
@@ -34,6 +36,7 @@ class Pool extends Model
 
     public function defaultFilter()
     {
+        print("inside defaultFilter!!!\n");
 // [A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64} ???
         return $this->hasOne(Filter::class)->withDefault(function ($filter) {
             $filter->mail_field = "fromAddress";
