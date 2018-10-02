@@ -16,7 +16,9 @@ class Pool extends Model
     }
     public function filters()
     {
-        return $this->hasMany(Filter::class) ?? $this->defaultFilter();
+        $filters = $this->hasMany(Filter::class);
+        if ($filters->get()->isEmpty()) $filters = [$this->defaultFilter()];
+        return $filters;
     }
 
     public function defaultFilter()
