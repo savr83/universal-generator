@@ -76,11 +76,13 @@ class MailkitHandleCommand extends Command
                         continue;
                     }
 
+                    $calculatedRule = true;
                     $rule = $pool->active_rules->get()->sortByDesc('priority')->first();
 
                     if ($existingLog = Log::where(['pool_name' => $pool->name, 'from' => $mail->fromAddress])->orderBy('updated_at')->first()) {
-                        print('Found existing rule!!!\n');
+                        print("Found existing rule!!!\n");
                         $rule = $existingLog->rule;
+                        $calculatedRule = false;
                     }
 
                     foreach ($pool->filters as $filter) {
@@ -113,7 +115,7 @@ class MailkitHandleCommand extends Command
                     $log->pool_name = $pool->name;
                     $log->rule()->associate($rule);
                     $log->save();
-                    $rule->increment('counter');
+                    if ($calculatedRule) $rule->increment('counter');
 
                     print("Updating marker: {$mail->date}\n");
                     $source->lastmail_id = $mail->date;
