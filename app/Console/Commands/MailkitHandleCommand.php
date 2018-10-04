@@ -83,7 +83,7 @@ class MailkitHandleCommand extends Command
                         $rule = $existingLog->rule;
                     }
 
-                    foreach ($pool->active_filters as $filter) {
+                    foreach ($pool->filters as $filter) {
                         switch($this->filterMail($filter, $mail)){
                             case Filter::ACTION_SEND:
                                 $rule = $filter->rule();
