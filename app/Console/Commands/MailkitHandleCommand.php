@@ -59,7 +59,6 @@ class MailkitHandleCommand extends Command
                 print("Handling source: {$source->name}\n");
 
                 $mailbox = new Mailbox($source->connection, $source->login, $source->password, $tempDir);
-                config()->set(['mail.username' => $source->login, 'mail.password' => $source->password]);
 
                 /**
                  * https://tools.ietf.org/html/rfc3501#section-9
@@ -110,6 +109,8 @@ class MailkitHandleCommand extends Command
                     app()->forgetInstance('swift.transport');
                     app()->forgetInstance('swift.mailer');
                     app()->forgetInstance('mailer');
+
+                    config()->set(['mail.username' => $source->login, 'mail.password' => $source->password]);
 
                     Mail::to($rule->recipient_list)->send(new ForwardedMail($source->login, $mail));
                     $log = new Log();
