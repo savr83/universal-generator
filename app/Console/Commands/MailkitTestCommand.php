@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Mailkit\Log;
 use App\Mailkit\Pool;
 use App\Mailkit\Rule;
 use App\Mailkit\Source;
@@ -41,6 +42,13 @@ class MailkitTestCommand extends Command
     public function handle()
     {
         print('running test\n');
+
+        if ($existingLog = Log::where(['pool_name' => 'Main', 'from' => 'stroitorg35@bk.ru'])->sortByDesc('updated_at')->first()) {
+            print('Found existing rule!!!\n');
+            dump($existingLog->rule());
+        }
+
+/*
         $pool = new Pool();
         $source = new Source();
         $rule = new Rule();
@@ -59,5 +67,6 @@ class MailkitTestCommand extends Command
         $pool->sources()->save($source);
         $pool->rules()->save($rule);
         $pool->save();
+*/
     }
 }
