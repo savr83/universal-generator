@@ -47,11 +47,10 @@ class MailkitHandleCommand extends Command
      */
     public function handle()
     {
-        print("Get emails using IMAP...\n");
+        print("Start handling emails\n");
 
         $tempDir = sys_get_temp_dir() . '/mailkit_attach';
         if (!is_dir($tempDir)) mkdir($tempDir);
-        print("Temporary directory is: $tempDir\n");
 
         foreach (Pool::where('enabled', true)->get() as $pool){
             print("Handling pool: {$pool->name}\n");
@@ -62,9 +61,12 @@ class MailkitHandleCommand extends Command
                 $mailbox = new Mailbox($source->connection, $source->login, $source->password, $tempDir);
                 config()->set(['mail.username' => $source->login, 'mail.password' => $source->password]);
 
-                // https://tools.ietf.org/html/rfc3501#section-9
-                // date('j-M-Y') -1 day
-                $criteria = $source->lastmail_id ? 'SINCE ' . date('j-M-Y', strtotime($source->lastmail_id . ' -1 day')) : 'ALL';
+                /**
+                 * https://tools.ietf.org/html/rfc3501#section-9
+                 * date('j-M-Y')
+                 * '-1 day' removed
+                 */
+                $criteria = $source->lastmail_id ? 'SINCE ' . date('j-M-Y', strtotime($source->lastmail_id)) : 'ALL';
                 print("Searching criteria: $criteria\n");
                 $mailsIds = $mailbox->searchMailbox($criteria);
 
@@ -105,7 +107,7 @@ class MailkitHandleCommand extends Command
                     print("mail from: {$mail->fromAddress} added using rule: {$rule->name} with priority: {$rule->priority}\n");
                     dump($mail);
 
-                    Mail::clearResolvedInstances();
+                    Mail::forceReconnection();
 
                     Mail::to($rule->recipient_list)->send(new ForwardedMail($source->login, $mail));
                     $log = new Log();
@@ -123,6 +125,9 @@ class MailkitHandleCommand extends Command
                 }
             }
         }
+        print("Finish handling mail\n");
+        print("Remove all attachments from: $tempDir\n");
+        array_map("unlink", glob($tempDir . "/*"));
     }
 
     public function filterMail($filter, $mail)
