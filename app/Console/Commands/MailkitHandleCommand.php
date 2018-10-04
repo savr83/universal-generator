@@ -61,7 +61,7 @@ class MailkitHandleCommand extends Command
                 print("Handling source: {$source->name}\n");
 
                 print("Set up new SMTP transport: host: " . config('mail.host') . " port: " . config('mail.port') . " encryption: " . config('mail.encryption'));
-                $transport = Swift_SmtpTransport::newInstance(config('mail.host'), config('mail.port'), config('mail.encryption'));
+                $transport = new Swift_SmtpTransport(config('mail.host'), config('mail.port'), config('mail.encryption'));
                 $transport->setUsername($source->login);
                 $transport->setPassword($source->password);
                 Mail::setSwiftMailer(new Swift_Mailer($transport));
