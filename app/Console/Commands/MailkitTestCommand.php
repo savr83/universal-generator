@@ -43,7 +43,7 @@ class MailkitTestCommand extends Command
     {
         print('running test\n');
 
-        if ($existingLog = Log::where(['pool_name' => 'Main', 'from' => 'stroitorg35@bk.ru'])->sortByDesc('updated_at')->first()) {
+        if ($existingLog = Log::where(['pool_name' => 'Main', 'from' => 'stroitorg35@bk.ru'])->orderByDesc('updated_at')->first()) {
             print('Found existing rule!!!\n');
             dump($existingLog->rule());
         }
