@@ -78,24 +78,15 @@ class MailkitHandleCommand extends Command
 
                     $rule = $pool->active_rules->get()->sortByDesc('priority')->first();
 
-                    /*
-                    if ($existingRule = Log::where(['pool_name' => $pool->name, 'from' => $mail->fromAddress])->sortByDesc('updated_at')->first()) {
+                    if ($existingLog = Log::where(['pool_name' => $pool->name, 'from' => $mail->fromAddress])->orderBy('updated_at')->first()) {
                         print('Found existing rule!!!\n');
-                        $rule = $existingRule;
+                        $rule = $existingLog->rule;
                     }
-                    */
 
                     foreach ($pool->active_filters as $filter) {
                         switch($this->filterMail($filter, $mail)){
                             case Filter::ACTION_SEND:
                                 $rule = $filter->rule();
-//                                $linked_filter = new Filter();
-//                                $linked_filter->mail_field = "fromAddress";
-//                                $linked_filter->regexp = "/{$mail->fromAddress}/";
-//                                $linked_filter->action = Filter::ACTION_REPLY;
-//                                $linked_filter->pool()->associate($pool);
-//                                $linked_filter->rule()->associate($rule);
-//                                $linked_filter->save();
                                 break;
                             case Filter::ACTION_REPLY:
                                 $rule = $filter->rule();
