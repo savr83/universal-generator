@@ -107,7 +107,9 @@ class MailkitHandleCommand extends Command
                     print("mail from: {$mail->fromAddress} added using rule: {$rule->name} with priority: {$rule->priority}\n");
                     dump($mail);
 
-                    Mail::forceReconnection();
+                    app()->forgetInstance('swift.transport');
+                    app()->forgetInstance('swift.mailer');
+                    app()->forgetInstance('mailer');
 
                     Mail::to($rule->recipient_list)->send(new ForwardedMail($source->login, $mail));
                     $log = new Log();
