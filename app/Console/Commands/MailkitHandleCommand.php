@@ -60,12 +60,15 @@ class MailkitHandleCommand extends Command
             foreach ($pool->sources()->where('enabled', true)->get() as $source) {
                 print("Handling source: {$source->name}\n");
 
-                print("Set up new SMTP transport: host: " . config('mail.host') . " port: " . config('mail.port') . " encryption: " . config('mail.encryption'));
+                /**
+                 * Changing SMTP transport will ignore any other possible mail configs
+                 */
+
+                print("Set up new SMTP transport: host: " . config('mail.host') . " port: " . config('mail.port') . " encryption: " . config('mail.encryption') . "\n");
                 $transport = new Swift_SmtpTransport(config('mail.host'), config('mail.port'), config('mail.encryption'));
                 $transport->setUsername($source->login);
                 $transport->setPassword($source->password);
                 Mail::setSwiftMailer(new Swift_Mailer($transport));
-
 
                 $mailbox = new Mailbox($source->connection, $source->login, $source->password, $tempDir);
 
@@ -114,11 +117,6 @@ class MailkitHandleCommand extends Command
                     }
                     print("mail from: {$mail->fromAddress} added using rule: {$rule->name} with priority: {$rule->priority}\n");
                     dump($mail);
-
-//                    app()->forgetInstance('swift.transport');
-//                    app()->forgetInstance('swift.mailer');
-//                    app()->forgetInstance('mailer');
-//                    config()->set(['mail.username' => $source->login, 'mail.password' => $source->password]);
 
                     Mail::to($rule->recipient_list)->send(new ForwardedMail($source->login, $mail));
                     $log = new Log();

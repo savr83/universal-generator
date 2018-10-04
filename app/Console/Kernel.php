@@ -24,16 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
-
-//        $schedule->call(function () {
-//            print("lalala");
-//        })
-
         $schedule->command('mailkit:handle')
         ->everyMinute()
-//        ->dailyAt('15:17')
         ->withoutOverlapping()
         ->appendOutputTo(__DIR__.'/../../../.tmp/schedule.log');
     }
