@@ -31,7 +31,7 @@ removed due to multiple Frontend entry points
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{mix('css/app.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset(mix('css/app.css'))}}" rel="stylesheet" type="text/css">
 
 </head>
 <body>
