@@ -52,7 +52,7 @@ class ForwardedMail extends Mailable
             $bodyType = "html";
         }
         return $this->from($this->fromAddress, ($this->mail->fromName ? $this->mail->fromName : $this->mail->fromAddress))
-            ->view('MailKit.forwarded')
+            ->view('mailkit.forwarded')
             ->with([
                 "date" => $this->mail->date,
                 "from" => $this->mail->fromAddress,
