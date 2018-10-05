@@ -17,11 +17,7 @@ use Illuminate\Support\Facades\Validator;
 
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/test', function () {
-    return view('test');
+    return view('index');
 });
 
 Auth::routes();
@@ -108,3 +104,5 @@ Route::get('/validate', function () {
 });
 
 Route::get('/configs/generate/{id}', 'ConfigController@generate');
+
+Route::view('/mailkit', 'mailkit.index');

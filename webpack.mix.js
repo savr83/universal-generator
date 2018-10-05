@@ -12,4 +12,5 @@ let mix = require('laravel-mix');
  */
 
 mix.react('resources/assets/js/app.js', 'public/js')
+   .react('resources/assets/mailkit/app.js', 'public/js/mailkit')
    .sass('resources/assets/sass/app.scss', 'public/css');
