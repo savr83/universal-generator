@@ -126,7 +126,10 @@ class MailkitHandleCommand extends Command
                     $log->pool_name = $pool->name;
                     $log->rule()->associate($rule);
                     $log->save();
-                    if ($calculatedRule) $rule->increment('counter');
+                    if ($calculatedRule) {
+                        $rule->timestamps = false;
+                        $rule->increment('counter');
+                    }
 
                     print("Updating marker: {$mail->date}\n");
                     $source->lastmail_id = $mail->date;
