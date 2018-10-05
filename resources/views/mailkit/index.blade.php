@@ -14,7 +14,7 @@
                         @endif
 
                         <div id="mailkit"></div>
-                        <script src="{{asset(mix('js/mailkit/app.js'))}}" ></script>
+                        <script src="{{asset(mix('js/mailkit/app.js'))}}" defer></script>
 
                     </div>
                 </div>

@@ -15,7 +15,7 @@
                          DataBase Editor приложение Laravel+React!
 
                         <div id="example"></div>
-                        <script src="{{asset(mix('js/app.js'))}}" ></script>
+                        <script src="{{asset(mix('js/app.js'))}}" defer></script>
 
                     </div>
                 </div>
