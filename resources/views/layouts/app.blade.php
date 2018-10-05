@@ -75,11 +75,6 @@ removed due to multiple Frontend entry points
                                     </form>
                                 </div>
                             </li>
-                            <a href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
                         @endguest
                     </ul>
                 </div>
