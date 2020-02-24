@@ -85,6 +85,7 @@ class MailkitHandleCommand extends Command
                 foreach($mailsIds as $id) {
                     $mail = $mailbox->getMail($id, false);
 
+                    print("lastmail_id {$source->lastmail_id} mail->data{$mail->date} if: " . ($source->lastmail_id && ($mail->date <= $source->lastmail_id)));
                     if ($log = Log::where(['message_id' => $mail->id])->first()) {
 //                    if ($source->lastmail_id && $mail->date <= $source->lastmail_id) {
                         print("Mail already handled (from: {$mail->fromAddress} date: {$mail->date}) SKIPPED!\n");
@@ -116,6 +117,15 @@ class MailkitHandleCommand extends Command
                                 $rule = $pool->defaultRule();
                                 break;
                         }
+                    }
+
+                    /***
+                     * empty fromAddress issue 02.02.2019
+                     */
+                    if (!$mail->fromAddress) {
+                        print("mail DOESN'T containf from field!!");
+                        dump($mail);
+                        continue;
                     }
                     print("mail from: {$mail->fromAddress} added using rule: {$rule->name} with priority: {$rule->priority}\n");
                     dump($mail);
