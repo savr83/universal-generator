@@ -22,6 +22,10 @@ class CreateMailkitFilterTable extends Migration
             $table->boolean('enabled')->default(true);
             $table->timestamps();
 
+            $table->unsignedInteger('rule_id')->nullable()->default(null);
+            $table->foreign('rule_id')->references('id')->on('mailkit_rules')->onDelete('cascade')->onUpdate('cascade');
+
+
             $table->unsignedInteger('pool_id');
             $table->foreign('pool_id')->references('id')->on('mailkit_pools')->onDelete('cascade')->onUpdate('cascade');
         });

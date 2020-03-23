@@ -18,36 +18,5 @@ Route::middleware('auth')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::resource('configs', 'ConfigController'); //->name('home');
-// disable temporary
-//Route::resource('destinations', 'DestinationController');
-//Route::resource('rules', 'RuleController');
-
-Route::resource('categories', 'CategoryController');
-Route::resource('products', 'ProductController');
-
-
 Route::resource('pool', 'Mailkit\PoolController');
 
-
-
-Route::get('/configs/generate/{id}', 'ConfigController@generate');
-Route::get('/configs/import/{id}', 'ConfigController@import');
-
-Route::post('/upload', function (Request $request) {
-
-//    $file = $request->file('file.name');
-
-    foreach ($request->file() as $file) {
-
-        $file->move(__DIR__ . '/../upload/' . $file->getClientOriginalExtension(), $file->getClientOriginalName());
-        $source = new Source;
-        $source->config_id = 1;
-        $source->type = $file->getClientOriginalExtension();
-        $source->source_name = $file->getClientOriginalName();
-        $source->save();
-    }
-
-    return  $request->file();
-});

@@ -15,7 +15,7 @@ export const poolAPIError = error => ({
 export const poolAPIList = filter => {
     return dispatch => {
         dispatch(poolAPIRequest('list'))
-        fetch('/generator/api/pool')
+        fetch('../api/pool')
             .then(res => res.json())
             .then(
                 data => {
@@ -30,7 +30,7 @@ export const poolAPIList = filter => {
 export const poolAPIAdd = (name, description) => {
     return dispatch => {
         dispatch(poolAPIRequest('add'))
-        fetch('/generator/api/pool', {
+        fetch('../api/pool', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -53,7 +53,7 @@ export const poolAPIAdd = (name, description) => {
 export const poolAPIDel = (id) => {
     return dispatch => {
         dispatch(poolAPIRequest('del'))
-        fetch('/generator/api/pool', {
+        fetch('../api/pool', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

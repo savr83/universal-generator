@@ -21,6 +21,7 @@ class CreateMailkitSourceTable extends Migration
             $table->string('password');
             $table->boolean('enabled')->default(true);
             $table->timestamps();
+            $table->string('lastmail_id');
 
             $table->unsignedInteger('pool_id');
             $table->foreign('pool_id')->references('id')->on('mailkit_pools')->onDelete('cascade')->onUpdate('cascade');

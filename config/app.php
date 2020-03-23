@@ -160,12 +160,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        Protechstudio\PrestashopWebService\PrestashopWebServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
 
         Barryvdh\Debugbar\ServiceProvider::class,
-
-        Franzose\ClosureTable\ClosureTableServiceProvider::class,
 
     ],
 
@@ -215,7 +212,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Prestashop' => Protechstudio\PrestashopWebService\PrestashopWebServiceFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],

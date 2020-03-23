@@ -20,10 +20,9 @@ Route::get('/', function () {
     return view('index');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
-//Route::get('/config', 'ConfigController@index'); //->name('home');
 
 Route::get('/redirect_code', function () {
     $query = http_build_query([
@@ -70,27 +69,6 @@ Route::get('/auth/callback', function (Request $request) {
     }
 });
 
-Route::get('/permut', function () {
-    $array1 = ['a' => ['1', '2'], 'b'  => ['3', '4'], 'c'  => ['5', '6', '7']];
-    $array2 = ['f', 'g', 'h', 'i'];
-    $array3 = ['q', 'e', 'n', 'o'];
-    $out = [];
-
-/*
-    foreach (cartesian_product(['a1' => $array1, 'a2' => $array2, 'a3' => $array3]) as $combination) {
-        $out[] = "{$combination['a1'][0]}{$combination['a1'][1]}{$combination['a2']}{$combination['a3']}";
-    }
-    return ($out);
-*/
-    return cartesian_product(['a1' => $array1, 'a2' => $array2, 'a3' => $array3])->asArray();
-});
-
-/*
- * Route::get('/import', function () {
-    return cartesian_product(['a1' => $array1, 'a2' => $array2, 'a3' => $array3])->asArray();
-});
-*/
-
 Route::get('/validate', function () {
     $data = [
         'power2' => 100,
@@ -102,7 +80,5 @@ Route::get('/validate', function () {
     return $validator->messages();
 
 });
-
-Route::get('/configs/generate/{id}', 'ConfigController@generate');
 
 Route::view('/mailkit', 'mailkit.index');

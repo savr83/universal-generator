@@ -11,12 +11,12 @@ class SourceContainer extends Component {
         return (
             <div>Sources:</div>
 
-        $table->increments('id');
-        $table->string('name');
-        $table->string('connection');
-        $table->string('login');
-        $table->string('password');
-        $table->boolean('enabled')->default(true);
+//        $table->increments('id');
+//        $table->string('name');
+//        $table->string('connection');
+//        $table->string('login');
+//        $table->string('password');
+//        $table->boolean('enabled')->default(true);
 
         )
     }
