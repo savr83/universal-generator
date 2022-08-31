@@ -83,6 +83,7 @@ class MailkitHandleCommand extends Command
                 $mailsIds = $mailbox->searchMailbox($criteria);
 
                 foreach($mailsIds as $id) {
+// 2do: check method sortMails() instead of getMail() due to possible bug with mail list
                     $mail = $mailbox->getMail($id, false);
 
                     print("lastmail_id {$source->lastmail_id} mail->data{$mail->date} if: " . ($source->lastmail_id && ($mail->date <= $source->lastmail_id)));

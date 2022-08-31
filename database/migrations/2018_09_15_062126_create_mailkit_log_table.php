@@ -21,6 +21,8 @@ class CreateMailkitLogTable extends Migration
             $table->string('result');
             $table->timestamps();
 
+            $table->string('message_id');
+
             $table->unsignedInteger('rule_id');
             $table->foreign('rule_id')->references('id')->on('mailkit_rules');
         });

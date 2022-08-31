@@ -1,0 +1,17 @@
+.git
+node_modules
+npm-debug
+bootstrap
+config
+database
+routes
+src
+storage
+tests
+vendor
+.env
+artisan
+composer*.json
+phpunit.xml
+README.md
+server.php
