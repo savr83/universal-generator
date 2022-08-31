@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Mailkit</div>
+                    <div class="card-header">Mailkit v001</div>
                     <div class="card-body">
                         @if (session('status'))
                             <div class="alert alert-success">
@@ -13,7 +13,7 @@
                             </div>
                         @endif
 
-                        <div id="mailkit"></div>
+                        <div id="root"></div>
                         <script src="{{asset(mix('js/mailkit/app.js'))}}" defer></script>
 
                     </div>

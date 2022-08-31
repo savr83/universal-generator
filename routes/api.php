@@ -28,6 +28,9 @@ Route::resource('categories', 'CategoryController');
 Route::resource('products', 'ProductController');
 
 
+Route::resource('pool', 'Mailkit\PoolController');
+
+
 
 Route::get('/configs/generate/{id}', 'ConfigController@generate');
 Route::get('/configs/import/{id}', 'ConfigController@import');

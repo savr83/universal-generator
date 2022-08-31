@@ -46,6 +46,7 @@ class MailkitHandleCommand extends Command
      *   {imap.beget.com:993/imap/ssl}INBOX
      *
      * @return mixed
+     * @throws \PhpImap\Exception
      */
     public function handle()
     {
@@ -85,7 +86,8 @@ class MailkitHandleCommand extends Command
                     $mail = $mailbox->getMail($id, false);
 
                     print("lastmail_id {$source->lastmail_id} mail->data{$mail->date} if: " . ($source->lastmail_id && ($mail->date <= $source->lastmail_id)));
-                    if ($source->lastmail_id && $mail->date <= $source->lastmail_id) {
+                    if ($log = Log::where(['message_id' => $mail->id])->first()) {
+//                    if ($source->lastmail_id && $mail->date <= $source->lastmail_id) {
                         print("Mail already handled (from: {$mail->fromAddress} date: {$mail->date}) SKIPPED!\n");
                         continue;
                     }
@@ -134,6 +136,7 @@ class MailkitHandleCommand extends Command
                     $log->to = $rule->recipient_list;
                     $log->result = "Ok";
                     $log->pool_name = $pool->name;
+                    $log->message_id = $mail->id;
                     $log->rule()->associate($rule);
                     $log->save();
                     if ($calculatedRule) {

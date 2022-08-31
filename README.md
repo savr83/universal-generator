@@ -1,4 +1,5 @@
 # universal-generator
+## Ver 0.1
 String lists generator used to produce mass strings for XML, and other formats
 
 ## 2do

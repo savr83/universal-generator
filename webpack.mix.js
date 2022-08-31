@@ -11,6 +11,19 @@ let mix = require('laravel-mix');
  |
  */
 
+mix.options({
+    hmrOptions: {
+        host: '0.0.0.0',
+        port: '8080'
+    },
+});
+
+mix.webpackConfig({
+    devServer: {
+        port: '8080'
+    },
+});
+
 mix
     .react('resources/assets/mailkit/app.js', 'public/js/mailkit')
     .react('resources/assets/js/app.js', 'public/js')
