@@ -18,9 +18,6 @@ Route::middleware('auth')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('pool', 'Mailkit\PoolController');
-
-<<<<<<< HEAD
 Route::resource('configs', 'ConfigController'); //->name('home');
 // disable temporary
 //Route::resource('destinations', 'DestinationController');
@@ -29,10 +26,7 @@ Route::resource('configs', 'ConfigController'); //->name('home');
 Route::resource('categories', 'CategoryController');
 Route::resource('products', 'ProductController');
 
-
 Route::resource('pool', 'Mailkit\PoolController');
-
-
 
 Route::get('/configs/generate/{id}', 'ConfigController@generate');
 Route::get('/configs/import/{id}', 'ConfigController@import');
@@ -53,5 +47,3 @@ Route::post('/upload', function (Request $request) {
 
     return  $request->file();
 });
-=======
->>>>>>> d084c4339bda30d7c3847b94f98bca0d50a6ea7c

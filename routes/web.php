@@ -20,6 +20,11 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/pi', function () {
+    phpinfo();
+});
+
+
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
