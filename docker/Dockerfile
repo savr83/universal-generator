@@ -73,7 +73,7 @@ CMD /app/docker/run.sh
 #CMD /app/docker/run.sh
 
 FROM base as build
-RUN comopser install \
+RUN composer install \
     && yarn
 
 FROM build as dev

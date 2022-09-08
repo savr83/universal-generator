@@ -8,3 +8,5 @@ php artisan route:cache
 
 /usr/bin/supervisord
 apache2-foreground
+echo "Apache2 started!!!"
+
