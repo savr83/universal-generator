@@ -1,9 +1,10 @@
 {
 //    "image": "hgjh:0.0.1-dev",
+    "name": "mailkit",
     "build": { 
       "dockerfile": "../docker/Dockerfile",
       "context": "../",
-      "target": "mailkit"
+      "target": "dev"
     },
     "containerEnv": {
       "APP_URL": "https://localhost:80"

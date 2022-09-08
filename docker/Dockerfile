@@ -16,16 +16,23 @@ RUN apt-get update && apt-get install -y \
     libmcrypt-dev \
     libreadline-dev \
     libfreetype6-dev \
-    g++
+    g++ \
+# imap requirements    
+    libc-client-dev \
+    libkrb5-dev \
+# utils
+    mc \
+    vim \
+    net-tools \
 # install latest nodejs    
-    && curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
-    && apt-get install -y nodejs
+    && curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - \
+    && apt-get install -y nodejs \
 # install yarn
-    && curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
-    && echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-    && apt-get update && apt-get -y install yarn
+    && curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null \
+    && echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
+    && apt-get update && apt-get -y install yarn \
 # cleanup    
-    && apt-get autoremove --purge -y && apt-get clean
+    && apt-get autoremove --purge -y && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 
@@ -33,7 +40,8 @@ RUN apt-get update && apt-get install -y \
 # php extensions
 #TODO: check if -configure required
 #    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-RUN docker-php-ext-install -j$(nproc) \
+RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
+    && docker-php-ext-install -j$(nproc) \
     bcmath \
     bz2 \
     calendar \
@@ -43,7 +51,7 @@ RUN docker-php-ext-install -j$(nproc) \
     opcache \
     pdo pdo_mysql \
     iconv \
-    imap \
+    imap
 
 # apache config
 ENV APACHE_DOCUMENT_ROOT /app/public
@@ -60,9 +68,17 @@ COPY . .
 RUN chmod 777 -R storage
 #RUN chmod +x /app/docker/run.sh
 EXPOSE 80
+CMD /app/docker/run.sh
 #CMD ["npm", "run", "prod"]
 #CMD /app/docker/run.sh
 
 FROM base as build
-RUN yarn && yarn prod
+RUN comopser install \
+    && yarn
+
+FROM build as dev
+#RUN yarn dev
+
+FROM build as prod
+RUN yarn prod
 
