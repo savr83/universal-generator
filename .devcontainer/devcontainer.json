@@ -1,13 +1,14 @@
 {
-//    "image": ":0.0.1-dev",
+//    "image": "hgjh:0.0.1-dev",
     "build": { 
       "dockerfile": "../docker/Dockerfile",
-      "context": "../"
+      "context": "../",
+      "target": "mailkit"
     },
     "containerEnv": {
-      "APP_URL": "https://localhost:3000"
+      "APP_URL": "https://localhost:80"
     },
-    "forwardPorts": [3000],
+    "forwardPorts": [8000],
     "customizations": {
         // Configure properties specific to VS Code.
         "vscode": {
