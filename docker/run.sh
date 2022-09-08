@@ -2,7 +2,7 @@
 
 #cd /app/public
 # php artisan migrate:fresh --seed
-php artisan migrate
+#php artisan migrate
 php artisan cache:clear
 php artisan route:cache
 

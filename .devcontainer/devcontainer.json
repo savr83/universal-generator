@@ -9,7 +9,7 @@
     "containerEnv": {
       "APP_URL": "https://localhost:80"
     },
-    "appPort": ["80:8000"],
+    "appPort": ["8000:80"],
 //    "forwardPorts": [8000],
     "customizations": {
         // Configure properties specific to VS Code.
