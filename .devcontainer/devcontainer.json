@@ -1,0 +1,18 @@
+{
+//    "image": ":0.0.1-dev",
+    "build": { 
+      "dockerfile": "../docker/Dockerfile",
+      "context": "../"
+    },
+    "containerEnv": {
+      "APP_URL": "https://localhost:3000"
+    },
+    "forwardPorts": [3000],
+    "customizations": {
+        // Configure properties specific to VS Code.
+        "vscode": {
+          // Add the IDs of extensions you want installed when the container is created.
+          "extensions": ["dbaeumer.vscode-eslint"]
+      }
+    }
+}

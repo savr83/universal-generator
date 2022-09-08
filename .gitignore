@@ -4,8 +4,8 @@
 /public/js/*
 /public/css/*
 /public/phpmyadmin
-#/storage/*.key
-/storage
+/storage/*.key
+#/storage
 /vendor
 /.idea
 /.vscode
