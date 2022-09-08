@@ -66,11 +66,9 @@ WORKDIR /app
 COPY . .
 #COPY docker/supervisor/workers.conf /etc/supervisor/conf.d
 RUN chmod 777 -R storage
-#RUN chmod +x /app/docker/run.sh
+RUN chmod +x /app/docker/run.sh
 EXPOSE 80
 CMD /app/docker/run.sh
-#CMD ["npm", "run", "prod"]
-#CMD /app/docker/run.sh
 
 FROM base as build
 RUN composer install \
