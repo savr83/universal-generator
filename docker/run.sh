@@ -7,6 +7,8 @@ php artisan cache:clear
 php artisan route:cache
 
 /usr/bin/supervisord
-apache2-foreground
+echo "Supervisord started!!!"
+#apache2-foreground
+service apache2 start
 echo "Apache2 started!!!"
 

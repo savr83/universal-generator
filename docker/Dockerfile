@@ -35,10 +35,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get autoremove --purge -y && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-
-
 # php extensions
-#TODO: check if -configure required
 #    && docker-php-ext-configure gd --with-freetype --with-jpeg \
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install -j$(nproc) \
@@ -64,11 +61,9 @@ RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-di
 
 WORKDIR /app
 COPY . .
-#COPY docker/supervisor/workers.conf /etc/supervisor/conf.d
-RUN chmod 777 -R storage
-RUN chmod +x /app/docker/run.sh
+RUN chmod 777 -R storage \
+    && chmod +x /app/docker/run.sh
 EXPOSE 80
-CMD /app/docker/run.sh
 
 FROM base as build
 RUN composer install \
@@ -76,7 +71,9 @@ RUN composer install \
 
 FROM build as dev
 #RUN yarn dev
+CMD /app/docker/run.sh
 
 FROM build as prod
 RUN yarn prod
+CMD /app/docker/run.sh
 
