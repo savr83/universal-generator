@@ -68,7 +68,7 @@ RUN chmod 777 -R storage \
 EXPOSE 80
 
 FROM base as build
-ENTRYPOINT [ "sh", "-c"]
+ENTRYPOINT /app/docker/run.sh
 RUN composer install \
     && yarn
 
