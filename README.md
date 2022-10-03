@@ -47,3 +47,26 @@ INSERT INTO rules(destination_id, name, processing_logic) VALUES
 https://devarchy.com/redux -- подборка redux библиотек/компонентов
 
 КОНЕЦ!
+
+
+
+
+## etc
+
+            'host' => env('DB_HOST', 'localhost'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'savril5p_lara'),
+            'username' => env('DB_USERNAME', 'savril5p_lara'),
+            'password' => env('DB_PASSWORD', 'g&kdmK2Y')
+
+
+        // "dev": "npm run development",
+        // "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        // "watch": "npm run development -- --watch",
+        // "watch-poll": "npm run watch -- --watch-poll",
+        // "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        // "prod": "npm run production",
+        // "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+
+//        "laravel-mix": "^6.0.49",
+
