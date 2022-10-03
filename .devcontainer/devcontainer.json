@@ -7,7 +7,6 @@
       "context": "../",
       "target": "dev",
       "args": {
-        "target": "dev",
         "APP_KEY": "base64:Gwtegy/jzbm1rDEbr/xTqYo0QhgDCv27B1UXLAr01hk="
       }
     },
@@ -17,7 +16,7 @@
       "DB_HOST":"host.docker.internal"
     },
     "appPort": ["8000:80"],
-    "forwardPorts": ["localhost:3306"],
+//    "forwardPorts": ["localhost:3306"],
     "customizations": {
         // Configure properties specific to VS Code.
         "vscode": {
