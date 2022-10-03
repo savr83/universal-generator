@@ -53,7 +53,7 @@ RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     imap
 
 # apache config
-ENV APACHE_DOCUMENT_ROOT /app/public
+ENV APACHE_DOCUMENT_ROOT /workspaces/mailkit/public
 RUN sed -ri -e "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/sites-available/*.conf && \
     sed -ri -e "s!/var/www/!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf && \
     a2enmod rewrite info
@@ -61,14 +61,14 @@ RUN sed -ri -e "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/sites-av
 # composer
 RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
 
-WORKDIR /app
+WORKDIR /workspaces/mailkit/
 COPY . .
 RUN chmod 777 -R storage \
-    && chmod +x /app/docker/run.sh
+    && chmod +x /workspaces/mailkit/docker/run.sh
 EXPOSE 80
 
 FROM base as build
-ENTRYPOINT ["/app/docker/run.sh"]
+ENTRYPOINT ["/workspaces/mailkit/docker/run.sh"]
 RUN composer install \
     && yarn
 
@@ -79,4 +79,4 @@ RUN yarn build
 FROM build as prod
 WORKDIR /app
 RUN yarn prod
-CMD ["/app/docker/run.sh"]
+CMD ["/workspaces/mailkit/docker/run.sh"]
