@@ -1,6 +1,7 @@
 {
 //    "image": "hgjh:0.0.1-dev",
     "name": "mailkit",
+    "workspaceFolder": "/app",
     "build": { 
       "dockerfile": "../docker/Dockerfile",
       "context": "../",
@@ -12,7 +13,8 @@
     },
     "containerEnv": {
       "APP_URL": "https://localhost:80",
-      "APP_KEY": "base64:Gwtegy/jzbm1rDEbr/xTqYo0QhgDCv27B1UXLAr01hk="
+      "APP_KEY": "base64:Gwtegy/jzbm1rDEbr/xTqYo0QhgDCv27B1UXLAr01hk=",
+      "DB_HOST":"host.docker.internal"
     },
     "appPort": ["8000:80"],
     "forwardPorts": ["localhost:3306"],
