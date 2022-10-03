@@ -11,21 +11,12 @@ class SourceContainer extends Component {
         return (
             <div>Sources:</div>
 
-<<<<<<< HEAD
-        $table->increments('id');
-        $table->string('name');
-        $table->string('connection');
-        $table->string('login');
-        $table->string('password');
-        $table->boolean('enabled')->default(true);
-=======
 //        $table->increments('id');
 //        $table->string('name');
 //        $table->string('connection');
 //        $table->string('login');
 //        $table->string('password');
 //        $table->boolean('enabled')->default(true);
->>>>>>> d084c4339bda30d7c3847b94f98bca0d50a6ea7c
 
         )
     }
@@ -52,8 +43,4 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     }
 }
 
-<<<<<<< HEAD
 export default connect(mapStateToProps, mapDispatchToProps)(SourceContainer)
-=======
-export default connect(mapStateToProps, mapDispatchToProps)(SourceContainer)
->>>>>>> d084c4339bda30d7c3847b94f98bca0d50a6ea7c
