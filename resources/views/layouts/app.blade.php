@@ -17,8 +17,8 @@
         }
     </script>
 
-    <script src="{{ asset(@vite('js/manifest.js')) }}" defer></script>
-    <script src="{{ asset(@vite('js/vendor.js')) }}" defer></script>
+    <script src="{{ asset(@vite('resources/js/manifest.js')) }}" defer></script>
+    <script src="{{ asset(@vite('resources/js/vendor.js')) }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">

@@ -4,13 +4,18 @@
     "build": { 
       "dockerfile": "../docker/Dockerfile",
       "context": "../",
-      "target": "dev"
+      "target": "dev",
+      "args": {
+        "target": "dev",
+        "APP_KEY": "base64:Gwtegy/jzbm1rDEbr/xTqYo0QhgDCv27B1UXLAr01hk="
+      }
     },
     "containerEnv": {
-      "APP_URL": "https://localhost:80"
+      "APP_URL": "https://localhost:80",
+      "APP_KEY": "base64:Gwtegy/jzbm1rDEbr/xTqYo0QhgDCv27B1UXLAr01hk="
     },
     "appPort": ["8000:80"],
-//    "forwardPorts": [8000],
+    "forwardPorts": ["localhost:3306"],
     "customizations": {
         // Configure properties specific to VS Code.
         "vscode": {

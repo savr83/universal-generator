@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM php:8.1.10-apache-bullseye as base
 
 # packages
@@ -70,10 +72,11 @@ RUN composer install \
     && yarn
 
 FROM build as dev
-#RUN yarn dev
-CMD /app/docker/run.sh
+WORKDIR /app
+RUN yarn build
+CMD ["/app/docker/run.sh"]
 
 FROM build as prod
+WORKDIR /app
 RUN yarn prod
-CMD /app/docker/run.sh
-
+CMD ["/app/docker/run.sh"]
