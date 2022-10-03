@@ -22,7 +22,7 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ @vite('../../assets/sass/app.scss') }}" rel="stylesheet" type="text/css">
+    <link href="@vite('resources/sass/app.scss')" rel="stylesheet" type="text/css">
 
 </head>
 <body>

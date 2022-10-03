@@ -15,7 +15,7 @@
                          DataBase Editor приложение Laravel+React!
 
                         <div id="example"></div>
-                        <script src="{{ (@vite('../../assets/js/app.jsx') }}" defer></script>
+                        <script src="@vite('resources/js/app.jsx')" defer></script>
 
                     </div>
                 </div>
