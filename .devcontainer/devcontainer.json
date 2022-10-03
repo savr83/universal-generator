@@ -1,7 +1,7 @@
 {
 //    "image": "hgjh:0.0.1-dev",
     "name": "mailkit",
-    "workspaceFolder": "/app",
+//    "workspaceFolder": "/app",
     "build": { 
       "dockerfile": "../docker/Dockerfile",
       "context": "../",
