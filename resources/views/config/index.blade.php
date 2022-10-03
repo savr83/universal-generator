@@ -9,13 +9,13 @@
         <title>Laravel</title>
 
         {{--<link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">--}}
-        {{--<link href="{{@vite('resources/css/app.css')}}" rel="stylesheet" type="text/css">--}}
+        {{--<link href="{{@vite('../../assets/sass/app.scss')}}" rel="stylesheet" type="text/css">--}}
     </head>
     <body>
         <div class="container">
 
             <div id="root"></div>
-            <script src="{{@vite('js/app.js')}}" ></script>
+            <script src="{{@vite('../../assets/js/app.jsx')}}" ></script>
             <br />
 
             <div class="content">
