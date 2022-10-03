@@ -14,7 +14,7 @@
                         @endif
 
                         <div id="root"></div>
-                        <script src="{{asset(@vite('js/mailkit/app.js'))}}" defer></script>
+                        <script src="{{ @vite('../../assets/js/mailkit/app.js') }}" defer></script>
 
                     </div>
                 </div>
