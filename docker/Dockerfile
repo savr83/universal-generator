@@ -23,9 +23,7 @@ RUN apt-get update && apt-get install -y \
     libc-client-dev \
     libkrb5-dev \
 # utils
-    mc \
-    vim \
-    net-tools \
+    mc vim iputils-ping net-tools \
 # install latest nodejs    
     && curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - \
     && apt-get install -y nodejs \

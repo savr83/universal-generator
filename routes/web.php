@@ -11,9 +11,12 @@
 |
 */
 
-use function BenTools\CartesianProduct\cartesian_product;
+//use BenTools\CartesianProduct\cartesian_product;
+
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
@@ -25,7 +28,7 @@ Route::get('/pi', function () {
 });
 
 
-Auth::routes(['verify' => true]);
+//Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -56,7 +59,7 @@ Route::get('/auth/callback', function (Request $request) {
 
     if ($request->code) {
 
-        $http = new GuzzleHttp\Client;
+        $http = new Client();
 
         $response = $http->post('http://lara/oauth/token', [
             'form_params' => [

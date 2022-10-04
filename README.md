@@ -46,7 +46,16 @@ INSERT INTO rules(destination_id, name, processing_logic) VALUES
 ## URLs
 https://devarchy.com/redux -- подборка redux библиотек/компонентов
 
-КОНЕЦ!
+## Passport
+
+root@36bd0eb598b2:/workspaces/mailkit# php artisan passport:install
+Encryption keys generated successfully.
+Personal access client created successfully.
+Client ID: 3
+Client secret: hQm5VwbEWDAHfLHPM8qoDxFni080blZsHp9nL2wl
+Password grant client created successfully.
+Client ID: 4
+Client secret: 235js2ed9dCFODTozzzfb4ztWIrQkaBxYwoMiZGD
 
 
 
