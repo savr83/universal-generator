@@ -1,16 +1,16 @@
 //import { CommonActions } from '@react-navigation/native';
 
 export const apiRequest = api => ({
-    type: CommonActions.API_REQUEST,
+    type: APIActions.API_REQUEST,
     api: api
 })
 
 export const apiSuccess = () => ({
-    type: CommonActions.API_SUCCESS,
+    type: APIActions.API_SUCCESS,
 })
 
 export const apiError = error => ({
-    type: CommonActions.API_ERROR,
+    type: APIActions.API_ERROR,
     error: error
 })
 
