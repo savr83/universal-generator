@@ -1,5 +1,3 @@
-//import { CommonActions } from '@react-navigation/native';
-
 export const apiRequest = api => ({
     type: APIActions.API_REQUEST,
     api: api
