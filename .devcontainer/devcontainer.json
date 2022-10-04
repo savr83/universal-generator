@@ -11,12 +11,15 @@
         "DB_HOST": "host.docker.internal"
       }
     },
+    "runArgs": ["--env-file",".devcontainer/devcontainer.env"],
     // "containerEnv": {
     //   "APP_KEY": "base64:Gwtegy/jzbm1rDEbr/xTqYo0QhgDCv27B1UXLAr01hk=",
     //   "DB_HOST": "host.docker.internal",
-    //   "SOME_VAR": "SOME_VALUE"
+    //   "CONTAINER_VAR": "CONTAINER_VALUE"
     // },
     // "remoteEnv": {
+    //   "APP_KEY": "base64:Gwtegy/jzbm1rDEbr/xTqYo0QhgDCv27B1UXLAr01hk=",
+    //   "DB_HOST": "host.docker.internal",
     //   "REMOTE_VAR": "REMOTE_VALUE"
     // },
     "appPort": ["8000:80"],

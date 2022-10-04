@@ -1,8 +1,8 @@
 #!/bin/sh
 
-#cd /app/public
-# php artisan migrate:fresh --seed
+#php artisan migrate:fresh --seed
 #php artisan migrate
+php artisan view:clear
 php artisan cache:clear
 php artisan route:cache
 
