@@ -16,7 +16,7 @@
       "DB_HOST":"host.docker.internal"
     },
     "appPort": ["8000:80"],
-    "postStartCommand": "/workspaces/mailkit/docker/run.sh",
+    "postStartCommand": ["/workspaces/mailkit/docker/run.sh"],
 //    "forwardPorts": ["localhost:3306"],
     "customizations": {
         // Configure properties specific to VS Code.
