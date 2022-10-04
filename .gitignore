@@ -6,7 +6,7 @@
 /public/phpmyadmin
 /public/build
 /storage/*.key
-#/storage
+/storage/**
 /vendor
 /.idea
 /.vscode

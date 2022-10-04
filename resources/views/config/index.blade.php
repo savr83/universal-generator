@@ -8,14 +8,14 @@
 
         <title>Laravel</title>
 
-        {{--<link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">--}}
-        {{--<link href="@vite('resources/sass/app.scss')" rel="stylesheet" type="text/css">--}}
+        {{-- <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css"> --}}
+        {{-- @vite('resources/sass/app.scss')" --}}
     </head>
     <body>
         <div class="container">
 
             <div id="root"></div>
-            <script src="@vite('resources/js/app.jsx')" ></script>
+            @vite('resources/js/app.jsx')
             <br />
 
             <div class="content">
