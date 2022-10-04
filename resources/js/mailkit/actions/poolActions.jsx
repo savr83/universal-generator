@@ -10,14 +10,14 @@ export const poolAPIList = filter => {
                     dispatch(apiSuccess())
                     dispatch(poolList(filter ? data.data.filter(item => item.name.search(filter)): data.data))
                 },
-                    err => dispatch(apiError('fucking error!'))
+                err => dispatch(apiError('List error!', err))
             )
     }
 }
 
 export const poolAPIAdd = (name, description) => {
     return dispatch => {
-        dispatch(poolAPIRequest('add'))
+        dispatch(apiRequest('add'))
         fetch('../api/pool', {
             method: 'POST',
             headers: {
@@ -29,10 +29,10 @@ export const poolAPIAdd = (name, description) => {
             .then(res => res.json())
             .then(
                 data => {
-                    dispatch(poolAPISuccess())
+                    dispatch(apiSuccess())
                     dispatch(poolAdd(data.data))
                 },
-                err => dispatch(poolAPIError('fucking error!'))
+                err => dispatch(apiError('Add error!', err))
             );
     }
 }
@@ -40,7 +40,7 @@ export const poolAPIAdd = (name, description) => {
 // todo: add all correct code
 export const poolAPIDel = (id) => {
     return dispatch => {
-        dispatch(poolAPIRequest('del'))
+        dispatch(apiRequest('del'))
         fetch('../api/pool', {
             method: 'POST',
             headers: {
@@ -52,10 +52,10 @@ export const poolAPIDel = (id) => {
             .then(res => res.json())
             .then(
                 data => {
-                    dispatch(poolAPISuccess())
+                    dispatch(apiSuccess())
                     dispatch(poolAdd(data.data))
                 },
-                err => dispatch(poolAPIError('fucking error!'))
+                err => dispatch(apiError('Del error!', err))
             );
     }
 }

@@ -9,7 +9,7 @@
         <title>Laravel</title>
 
         {{-- <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css"> --}}
-        {{-- @vite('resources/sass/app.scss')" --}}
+        @vite('resources/sass/app.scss')
     </head>
     <body>
         <div class="container">
