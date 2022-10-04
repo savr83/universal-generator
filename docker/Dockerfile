@@ -59,6 +59,14 @@ RUN sed -ri -e "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/sites-av
 # composer
 RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
 
+#vars
+ARG APP_URL=http://localhost:80
+ARG APP_KEY
+ARG DB_HOST=host.docker.internal
+ENV APP_URL=$APP_URL
+ENV APP_KEY=$APP_KEY
+ENV DB_HOST=$DB_HOST
+
 WORKDIR /workspaces/mailkit/
 COPY . .
 RUN chmod 777 -R storage \

@@ -1,20 +1,23 @@
 {
 //    "image": "hgjh:0.0.1-dev",
-    "name": "mailkit",
 //    "workspaceFolder": "/app",
+    "name": "mailkit",
     "build": { 
       "dockerfile": "../docker/Dockerfile",
       "context": "../",
       "target": "dev",
       "args": {
         "APP_KEY": "base64:Gwtegy/jzbm1rDEbr/xTqYo0QhgDCv27B1UXLAr01hk="
+//        "DB_HOST":"host.docker.internal"
       }
     },
-    "containerEnv": {
-      "APP_URL": "https://localhost:80",
-      "APP_KEY": "base64:Gwtegy/jzbm1rDEbr/xTqYo0QhgDCv27B1UXLAr01hk=",
-      "DB_HOST":"host.docker.internal"
-    },
+    // "containerEnv": {
+    // },
+    // "remoteEnv": {
+    //   "APP_URL": "https://localhost:80",
+    //   "APP_KEY": "base64:Gwtegy/jzbm1rDEbr/xTqYo0QhgDCv27B1UXLAr01hk=",
+    //   "DB_HOST":"host.docker.internal"
+    // },
     "appPort": ["8000:80"],
     "postStartCommand": ["/workspaces/mailkit/docker/run.sh"],
 //    "forwardPorts": ["localhost:3306"],
