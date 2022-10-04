@@ -2,6 +2,12 @@
 
 FROM php:8.1.10-apache-bullseye as base
 
+#vars
+ARG APP_URL
+ARG APP_KEY
+ARG DB_HOST
+ENV APP_URL=${APP_URL:-http://localhost:80} APP_KEY="$APP_KEY" DB_HOST=${DB_HOST:-host.docker.internal}
+
 # packages
 RUN apt-get update && apt-get install -y \
     supervisor \
@@ -59,14 +65,6 @@ RUN sed -ri -e "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/sites-av
 # composer
 RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
 
-#vars
-ARG APP_URL=http://localhost:80
-ARG APP_KEY
-ARG DB_HOST=host.docker.internal
-ENV APP_URL=$APP_URL
-ENV APP_KEY=$APP_KEY
-ENV DB_HOST=$DB_HOST
-
 WORKDIR /workspaces/mailkit/
 COPY . .
 RUN chmod 777 -R storage \
@@ -74,15 +72,22 @@ RUN chmod 777 -R storage \
 EXPOSE 80
 
 FROM base as build
+
+RUN echo BUILD url - $APP_URL key - $APP_KEY db - $DB_HOST !!!
+
 ENTRYPOINT ["/workspaces/mailkit/docker/run.sh"]
 RUN composer install \
     && yarn
 
 FROM build as dev
+
+RUN echo DEV url - $APP_URL key - $APP_KEY db - $DB_HOST !!!
+
 RUN yarn build
 #CMD ["/app/docker/run.sh"]
 
 FROM build as prod
+
 WORKDIR /app
 RUN yarn prod
 CMD ["/workspaces/mailkit/docker/run.sh"]
