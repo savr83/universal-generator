@@ -11,7 +11,7 @@
         "DB_HOST": "host.docker.internal"
       }
     },
-    "runArgs": ["--env-file",".devcontainer/devcontainer.env"],
+    // "runArgs": ["--env-file",".devcontainer/devcontainer.env"],
     // "containerEnv": {
     //   "APP_KEY": "base64:Gwtegy/jzbm1rDEbr/xTqYo0QhgDCv27B1UXLAr01hk=",
     //   "DB_HOST": "host.docker.internal",
@@ -24,7 +24,6 @@
     // },
     "appPort": ["8000:80"],
     "postStartCommand": "/workspaces/mailkit/docker/run.sh",
-//    "forwardPorts": ["localhost:3306"],
     "customizations": {
         // Configure properties specific to VS Code.
         "vscode": {
