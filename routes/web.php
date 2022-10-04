@@ -27,8 +27,16 @@ Route::get('/pi', function () {
     phpinfo();
 });
 
+Route::get('/login', function () {
+    return "Login!";
+});
 
-//Auth::routes(['verify' => true]);
+Route::get('/register', function () {
+    return "Register!";
+});
+
+
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 

@@ -5,7 +5,7 @@
 */
 
 export const addConfig = name => ({
-    type: ConfigActions.ADD_CONFIG,
+    type: ConfigActbuilions.ADD_CONFIG,
     name
 })
 
