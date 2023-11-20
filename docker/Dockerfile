@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
-FROM php:8.1.10-apache-bullseye as base
-
+FROM php:8.1.12-apache-bullseye as base
+     
 #vars
 ARG APP_URL
 ARG APP_KEY
@@ -74,7 +74,6 @@ EXPOSE 80
 FROM base as build
 
 RUN echo BUILD url - $APP_URL key - $APP_KEY db - $DB_HOST !!!
-
 ENTRYPOINT ["/workspaces/mailkit/docker/run.sh"]
 RUN composer install \
     && yarn
@@ -82,12 +81,12 @@ RUN composer install \
 FROM build as dev
 
 RUN echo DEV url - $APP_URL key - $APP_KEY db - $DB_HOST !!!
-
 RUN yarn build
 #CMD ["/app/docker/run.sh"]
 
 FROM build as prod
 
 WORKDIR /app
+RUN echo PROD url - $APP_URL key - $APP_KEY db - $DB_HOST !!!
 RUN yarn prod
 CMD ["/workspaces/mailkit/docker/run.sh"]
